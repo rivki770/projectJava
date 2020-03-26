@@ -78,7 +78,7 @@ public class Point3D {
      * @return vector from result of subtract vector and point
      */
     public Vector subtract(Point3D other) {
-        return new Vector(new Point3D(other._x.get() - this._x.get(), other._y.get() - this._y.get(), other._z.get() - this._z.get()));
+        return new Vector(new Point3D(this._x.get() - other._x.get(), this._y.get() - other._y.get(), this._z.get() - other._z.get()));
     }
 
     /**

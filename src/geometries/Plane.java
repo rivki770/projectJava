@@ -8,8 +8,8 @@ import primitives.Vector;
  */
 
 public class Plane implements Geometry {
-    Point3D point;
-    Vector normal;
+    Point3D _point;
+    Vector _normal;
 
     /*************** Constructor ********************/
     /**
@@ -18,8 +18,8 @@ public class Plane implements Geometry {
      * @param normal to plane
      */
     public Plane(Point3D point, Vector normal) {
-        this.point = point;
-        this.normal = normal;
+        this._point = point;
+        this._normal = normal;
     }
 
     /**
@@ -29,13 +29,13 @@ public class Plane implements Geometry {
      * @param vertex2 Point3D in the plane
      */
     public Plane(Point3D vertex, Point3D vertex1, Point3D vertex2) {
-        this.point = vertex;
+        this._point = vertex;
         Vector v = new Vector(vertex.subtract(vertex1));
         Vector u = new Vector(vertex.subtract(vertex2));
         Vector n = new Vector(v.crossProduct(u));
         n.normalize();
-        n.scale(-1);
-        this.normal = n;
+        n = n.scale(-1);
+        this._normal = n;
     }
 
     /*************** getters ********************/
@@ -44,7 +44,7 @@ public class Plane implements Geometry {
      * @return point3D in a plane
      */
     public Point3D getPoint() {
-        return point;
+        return _point;
     }
 
     /**
@@ -52,15 +52,15 @@ public class Plane implements Geometry {
      * @return vector normal in a plane
      */
     public Vector getNormal() {
-        return normal;
+        return new Vector(_normal);
     }
 
     /*************** toString() ********************/
     @Override
     public String toString() {
         return "Plane: " +
-                "Point = " + point +
-                ", Normal = " + normal;
+                "Point = " + _point +
+                ", Normal = " + _normal;
     }
 
     /**
@@ -70,6 +70,6 @@ public class Plane implements Geometry {
      */
     @Override
     public Vector getNormal(Point3D point) {
-        return this.getNormal();
+        return _normal;
     }
 }

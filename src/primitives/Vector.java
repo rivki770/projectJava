@@ -78,19 +78,16 @@ public class Vector {
     @Override
     public String toString() {
         return "Vector = " +
-                _head.toString() +
-                '}';
+                _head.toString();
     }
-
+    
     /**
      *
      * @param other vector
      * @return vector from result of subtract vectors
      */
     public Vector subtract(Vector other) {
-        return new Vector(new Point3D((-1) * (other._head._x.get()) + this._head._x.get(),
-                (-1) * (other._head._y.get()) + this._head._y.get(),
-                (-1) * (other._head._z.get()) + this._head._z.get()));
+    	return new Vector(this.add(other.scale(-1)));
     }
 
     /**

@@ -13,7 +13,9 @@ public abstract class RadialGeometry implements Geometry {
      *
      * @param _radius number for radius
      */
-    public RadialGeometry(double _radius) {
+    public RadialGeometry(double _radius) { 
+    	if (_radius <= 0)
+    		throw new IllegalArgumentException("ZERO or under ZERO number not valid for rudius");
         this._radius = _radius;
     }
 

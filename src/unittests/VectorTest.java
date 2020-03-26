@@ -1,16 +1,47 @@
+/**
+ * 
+ */
 package unittests;
 
 import org.junit.Test;
-import primitives.Vector;
+import primitives.*;
+import static primitives.Util.*;
 
 import static org.junit.Assert.*;
-import static primitives.Util.isZero;
+
+/**
+ * Unit test for primitives.Vector class
+ * @author Rivki_Kanterovich
+ */
 
 public class VectorTest {
+	/**
+     * Test method for {@link primitives.Vector#Vector(primitives.Coordinate, primitives.Coordinate, primitives.Coordinate)}.
+     * Test method for {@link primitives.Vector#Vector(double, double, double)}.
+     */
+	@Test
+	public void testConstructors() {
+		try {
+			new Vector(new Coordinate(0), new Coordinate(0) ,new Coordinate(0)); 
+		} catch(IllegalArgumentException e) {}
+	
+		
+		try {
+			new Vector(0, 0 ,0); 
+		} catch(IllegalArgumentException e) {}
+		
+		try {
+			new Vector(10, -3 ,5); 
+		} catch(IllegalArgumentException e) {}
+	}
+	
     Vector v1 = new Vector(1, 2, 3);
     Vector v2 = new Vector(-2, -4, -6);
     Vector v3 = new Vector(0, 3, -2);
 
+    /**
+     * Test method for {@link primitives.Vector#subtract(primitives.Vector)}.
+     */
     @Test
     public void subtract() {
 
@@ -22,7 +53,10 @@ public class VectorTest {
         catch (Exception ex) {
         }
     }
-
+    
+    /**
+     * Test method for {@link primitives.Vector#add(primitives.Vector)}.
+     */
     @Test
     public void add() {
         assertTrue(v1.add(v2).equals(new Vector(-1, -2, -3)));
@@ -35,12 +69,18 @@ public class VectorTest {
 
     }
 
+    /**
+     * Test method for {@link primitives.Vector#scale(double)}.
+     */
     @Test
     public void scale() {
         assertEquals(v2, v1.scale(-2));
         assertNotEquals(v3, v1.scale(1));
     }
 
+    /**
+     * Test method for {@link primitives.Vector#dotProduct(primitives.Vector)}.
+     */
     @Test
     public void dotProduct() {
         assertTrue("dotProduct() for orthogonal vectors is not zero", isZero(v1.dotProduct(v3)));
@@ -48,6 +88,9 @@ public class VectorTest {
         assertEquals(-28, v1.dotProduct(v2), 1e-10);
     }
 
+    /**
+     * Test method for {@link primitives.Vector#crossProduct(primitives.Vector)}.
+     */
     @Test
     public void crossProduct() {
         Vector vr = v1.crossProduct(v3);
@@ -63,16 +106,25 @@ public class VectorTest {
         }
     }
 
+    /**
+     * Test method for {@link primitives.Vector#lengthSquared()}.
+     */
     @Test
     public void lengthSquared() {
         assertEquals(14, v1.lengthSquared(), 1e-10);
     }
 
+    /**
+     * Test method for {@link primitives.Vector#length()}.
+     */
     @Test
     public void length() {
         assertEquals(5, new Vector(0, 3, 4).length(), 1e-10);
     }
 
+    /**
+     * Test method for {@link primitives.Vector#normalize()}.
+     */
     @Test
     public void normalize() {
         Vector v = new Vector(1, 2, 3);
@@ -81,9 +133,11 @@ public class VectorTest {
 
         assertTrue("normalize() function creates a new vector", vCopy.equals(vCopyNormalize));
         assertEquals("normalize() result is not a unit vector", 1, vCopyNormalize.length(), 1e-10);
-
     }
 
+    /**
+     * Test method for {@link primitives.Vector#normalized()}.
+     */
     @Test
     public void normalized() {
         Vector v = new Vector(1, 2, 3);

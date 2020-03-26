@@ -1,8 +1,6 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 /**
  * Cylinder: class for representing cylinder in 3D environment
@@ -70,6 +68,6 @@ public class Cylinder extends Tube {
      */
     @Override
     public Vector getNormal(Point3D point) {
-        return null;
+    	return null;
     }
 }

@@ -3,7 +3,6 @@ package unittests;
 import org.junit.Test;
 import primitives.Vector;
 
-import static java.lang.System.out;
 import static org.junit.Assert.*;
 import static primitives.Util.isZero;
 
@@ -21,7 +20,6 @@ public class VectorTest {
             assertTrue(v1.subtract(new Vector(1, 2, 3)).equals(new Vector(0,0,0)));
         }
         catch (Exception ex) {
-            out.println(ex.toString());
         }
     }
 
@@ -33,7 +31,6 @@ public class VectorTest {
             assertTrue(v1.add(new Vector(-1, -2, -3)).equals(new Vector(0,0,0)));
         }
         catch (Exception ex) {
-            out.println(ex.toString());
         }
 
     }
@@ -62,9 +59,7 @@ public class VectorTest {
             v1.crossProduct(v2);
             fail("crossProduct() for parallel vectors does not throw an exception");
         }
-        catch (Exception e)
-        {
-            out.println(e.toString());
+        catch (Exception e){
         }
     }
 

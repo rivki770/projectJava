@@ -1,5 +1,7 @@
 package geometries;
 
+import static primitives.Util.isZero;
+
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -60,6 +62,20 @@ public class Tube extends RadialGeometry {
      */
     @Override
     public Vector getNormal(Point3D point) {
-        return null;
+    	// n = normalize(Point - O)
+        // O is projection of P on cylinder's ray:
+        // t = v (P – P0)
+        // O = P0 + t * v
+   
+    	Point3D p0 = _axisRay.getPoint();
+    	Vector v = _axisRay.getNormal();
+    	
+    	double t = point.subtract(p0).dotProduct(v);
+    	Point3D o = null;
+        if (!isZero(t)) // if it's close to 0, we'll get ZERO vector exception
+            o = p0.add(v.scale(t));
+         
+        Vector n = point.subtract(o).normalize();
+        return n;
     }
 }

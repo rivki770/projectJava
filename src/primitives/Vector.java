@@ -109,7 +109,7 @@ public class Vector {
      * @param scale number
      * @return new vector from result of multiply the number
      */
-    public Vector scale(int scale) {
+    public Vector scale(double scale) {
         return new Vector(scale * this._head._x.get(), scale * this._head._y.get(), scale * this._head._z.get());
     }
 

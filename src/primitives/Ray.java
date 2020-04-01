@@ -18,11 +18,11 @@ public class Ray {
      */
     public Ray(Point3D point, Vector normal) {
 
-        if (normal.length() != 1) {
-            throw new IllegalArgumentException("The vector isn't normalize vector");
-        }
+        //if (normal.length() != 1) {
+           // throw new IllegalArgumentException("The vector isn't normalize vector");
+        //}
         this._point = point;
-        this._normal = normal;
+        this._normal = normal.normalize();
     }
 
     /**

@@ -34,7 +34,7 @@ public class Plane implements Geometry {
         Vector u = new Vector(vertex.subtract(vertex2));
         Vector n = new Vector(v.crossProduct(u));
         n.normalize();
-        n = n.scale(-1);
+        //n = n.scale(-1);
         this._normal = n;
     }
 
@@ -70,6 +70,6 @@ public class Plane implements Geometry {
      */
     @Override
     public Vector getNormal(Point3D point) {
-        return _normal;
+        return getNormal(null);
     }
 }

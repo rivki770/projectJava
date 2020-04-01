@@ -23,8 +23,9 @@ public class PlaneTest {
 	 */
 	@Test
 	public void testGetNormalPoint3D() {
+		// ========== Equivalence Partition Test ==========
 		Plane p1 = new Plane(new Point3D(0, 0, 0), new Point3D(1, 0, 0), new Point3D(0, 0, 1));
-		assertEquals("getNormal() result is not a solution" , p1.getNormal(), new Vector(0,1,0));
+		assertEquals("getNormal() result is not a solution" , p1.getNormal(), new Vector(0,-1,0));
 	}
 
 }

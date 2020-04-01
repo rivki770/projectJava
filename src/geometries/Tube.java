@@ -71,11 +71,10 @@ public class Tube extends RadialGeometry {
     	Vector v = _axisRay.getNormal();
     	
     	double t = point.subtract(p0).dotProduct(v);
-    	Point3D o = null;
         if (!isZero(t)) // if it's close to 0, we'll get ZERO vector exception
-            o = p0.add(v.scale(t));
+            p0 = p0.add(v.scale(t));
          
-        Vector n = point.subtract(o).normalize();
+        Vector n = point.subtract(p0).normalize();
         return n;
     }
 }

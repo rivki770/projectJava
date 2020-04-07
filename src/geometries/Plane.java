@@ -1,7 +1,9 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Vector;
+import java.util.List;
+
+import primitives.*;
+import static primitives.Util.*;
 
 /**
  * Plane: class for representing plane in environment
@@ -71,5 +73,22 @@ public class Plane implements Geometry {
     @Override
     public Vector getNormal(Point3D point) {
         return getNormal(null);
+    }
+    @Override
+    public List<Point3D> findIntersections(Ray ray){
+    	Vector p0Q;
+        try {
+            p0Q = _point.subtract(ray.getPoint());
+        } catch (IllegalArgumentException e) {
+            return null; // ray starts from point Q - no intersections
+        }
+
+        double nv = _normal.dotProduct(ray.getNormal());
+        if (isZero(nv)) // ray is parallel to the plane - no intersections
+            return null;
+
+        double t = alignZero(_normal.dotProduct(p0Q) / nv);
+
+        return t <= 0 ? null : List.of(ray.getTargetPoint(t));
     }
 }

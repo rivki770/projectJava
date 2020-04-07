@@ -3,6 +3,8 @@ package geometries;
 import primitives.*;
 import static primitives.Util.*;
 
+import java.util.List;
+
 /**
  * Cylinder: class for representing cylinder in 3D environment
  */
@@ -86,5 +88,10 @@ public class Cylinder extends Tube {
 
            o = o.add(v.scale(t));
            return point.subtract(o).normalize();
+    }
+    
+    @Override
+    public List<Point3D> findIntersections(Ray ray){
+    	return super.findIntersections(ray);
     }
 }

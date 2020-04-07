@@ -1,4 +1,5 @@
 package primitives;
+import static primitives.Util.*;
 
 
 
@@ -46,6 +47,10 @@ public class Ray {
     public Vector getNormal() {
         return new Vector(_normal);
     }
+    
+    public Point3D getTargetPoint(double length) {
+        return isZero(length ) ? _point : _point.add(_normal.scale(length));
+ }
 
     /*************** toString() and equals() ********************/
     @Override

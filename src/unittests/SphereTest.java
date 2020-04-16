@@ -43,12 +43,11 @@ public class SphereTest {
 		assertEquals("getNormal() result is not a solution", sp2.getNormal(p2), new Vector(0, 0, 1));
 	}
 	
-	Sphere sphere = new Sphere(1d, new Point3D(1, 0, 0));
 	
 	
     @Test
     public void findIntersectionsTest() {
-//        Sphere sphere = new Sphere(1d, new Point3D(1, 0, 0));
+        Sphere sphere = new Sphere(1d, new Point3D(1, 0, 0));
 
         // ============ Equivalence Partitions Tests ==============
         Point3D p1 = new Point3D(0.0651530771650466, 0.355051025721682, 0);

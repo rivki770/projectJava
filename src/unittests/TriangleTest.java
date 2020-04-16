@@ -22,8 +22,9 @@ public class TriangleTest {
 	@Test
 	public void testGetNormal() {
 		// ========== Equivalence Partition Test ==========
-		Triangle t1 = new Triangle(new Point3D(0, 0, 0), new Point3D(1, 0, 0), new Point3D(0, 0, 1));
-		assertEquals("getNormal() result is not a solution" , t1.getNormal(Point3D.ZERO), new Vector(0,-1,0));
+		Triangle t1 = new Triangle(new Point3D(0, 0, 1), new Point3D(1, 0, 0), new Point3D(0, 1, 0));
+		double sqrt3 = Math.sqrt(1d / 3);
+		assertEquals("getNormal() result is not a solution", new Vector(sqrt3, sqrt3, sqrt3), t1.getNormal(Point3D.ZERO));
 	}
 
 }

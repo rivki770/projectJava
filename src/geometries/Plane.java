@@ -74,6 +74,7 @@ public class Plane implements Geometry {
     public Vector getNormal(Point3D point) {
         return getNormal(null);
     }
+    
     @Override
     public List<Point3D> findIntersections(Ray ray){
     	Vector p0Q;

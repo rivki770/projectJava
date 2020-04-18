@@ -12,14 +12,14 @@ import geometries.*;
 import primitives.*;
 
 /**
- * Unit test for geometries.TriangleTest class
+ * Unit test for geometries.Triangle class
  * @author Rivki_Kanterovich
  *
  */
 public class TriangleTest {
 
 	/**
-	 * Test method for {@link geometries.Polygon#getNormal(primitives.Point3D)}.
+	 * Test method for {@link geometries.Triangle#getNormal(primitives.Point3D)}.
 	 */
 	@Test
 	public void testGetNormal() {
@@ -29,7 +29,7 @@ public class TriangleTest {
 		assertEquals("getNormal() result is not a solution", new Vector(sqrt3, sqrt3, sqrt3), t1.getNormal(Point3D.ZERO));
 	}
 	/**
-	 * Test method for {@link geometries.Polygon#findIntersections(primitives.Ray)}.
+	 * Test method for {@link geometries.Triangle#findIntersections(primitives.Ray)}.
 	 */
 	@Test
 	public void testfindIntersectionsRay() {

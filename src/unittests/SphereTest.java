@@ -44,7 +44,9 @@ public class SphereTest {
 	}
 	
 	
-	
+	/**
+	 * Test method for {@link geometries.Sphere#findIntersections(primitives.Point3D)}.
+	 */
     @Test
     public void findIntersectionsTest() {
         Sphere sphere = new Sphere(1d, new Point3D(1, 0, 0));

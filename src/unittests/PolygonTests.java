@@ -5,7 +5,6 @@ package unittests;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
 
 import org.junit.Test;
 
@@ -95,7 +94,7 @@ public class PolygonTests {
     }
     
     /**
-	 * Test method for {@link geometries.Plane#findIntersections(primitives.Ray)}.
+	 * Test method for {@link geometries.Polygon#findIntersections(primitives.Ray)}.
 	 */
 	@Test
 	public void testfindIntersectionsRay() {

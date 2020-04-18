@@ -10,8 +10,8 @@ import geometries.*;
 import primitives.*;
 
 /**
- * @author rivki kanterovich
- *
+ *  Unit test for geometries.Cylinder class
+ * @author rivki_kanterovich
  */
 public class CylinderTest {
 

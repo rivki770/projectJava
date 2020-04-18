@@ -37,29 +37,29 @@ public class TriangleTest {
 		// ========== Equivalence Partition Test ==========
 		Triangle t1 = new Triangle(new Point3D(3, 0, 0), new Point3D(1, 0, 0), new Point3D(-2, 0, 5));
 		
-		// TC01: The Point inside triangle
+		// TC01: The Point inside triangle (1 point)
 		Ray r1 = new Ray(new Point3D(2, 1, 0), new Vector(0, -4, 1));
 		assertEquals("findIntersections() result isn't inside of a triangle", t1.findIntersections(r1), List.of(new Point3D(2, 0, 0.25)));
 		
-		// TC02: The Point outside against vertex
+		// TC02: The Point outside against edge (0 point)
 		Ray r2 = new Ray(new Point3D(2, 1, 0), new Vector(2, -1, 5));
-		assertEquals("findIntersections() result isn't outside against vertex", t1.findIntersections(r2), null); //מקביל לקודקוד
+		assertEquals("findIntersections() result isn't outside against edge", t1.findIntersections(r2), null); //כנגד הצלע
 		
-		// TC03: The Point outside against edge
-		Ray r3 = new Ray(new Point3D(2, 1, 0), new Vector(2, -1, -1));
-		assertEquals("findIntersections() result isn't outside against edge", t1.findIntersections(r3), null); //מקביל לצלע
+		// TC03: The Point outside against vertex (0 point)
+		Ray r3 = new Ray(new Point3D(0, 2, 3), new Vector(4, -2, -3.5));
+		assertEquals("findIntersections() result isn't outside against vertex", t1.findIntersections(r3), null); //כנגד הקודקוד
 		
 		// ========== Boundary Values Tests ==========
 
-		// TC11: The Point on edge
-		Ray r4 = new Ray(new Point3D(2, 1, 0), new Vector(4, -4, 0));
+		// TC11: The Point on edge (0 point)
+		Ray r4 = new Ray(new Point3D(2, 1, 0), new Vector(4, -4, 0)); 
 		assertEquals("findIntersections() result isn't on edge", t1.findIntersections(r4), null); //נפגש בקודקוד
 		
-		// TC12: The Point in vertex
+		// TC12: The Point in vertex (0 point)
 		Ray r5 = new Ray(new Point3D(2, 1, 0), new Vector(0, -2, 0));
 		assertEquals("findIntersections() result isn't in vertex", t1.findIntersections(r5), null); //נפגש בצלע
 		
-		// TC13: The Point on edge's continuation
+		// TC13: The Point on edge's continuation (0 point)
 		Ray r6 = new Ray(new Point3D(2, 1, 0), new Vector(6, -3, 0));
 		assertEquals("findIntersections() result isn't on edge's continuation", t1.findIntersections(r6), null); //חותך בהמשך הצלע
 	}

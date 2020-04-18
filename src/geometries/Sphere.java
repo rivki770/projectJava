@@ -67,6 +67,7 @@ public class Sphere extends RadialGeometry{
         Point3D p0 = ray.getPoint();
         Vector v = ray.getNormal();
         Vector u;
+        
         try {
             u = _center.subtract(p0);   // p0 == _center
         } catch (IllegalArgumentException e) {

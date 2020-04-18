@@ -10,7 +10,7 @@ import org.junit.Test;
 import geometries.*;
 import primitives.*;
 /**
- * @author אסתי
+ * @author rivki kanterovich
  *
  */
 public class GeometriesTest {

@@ -77,18 +77,18 @@ public class Plane implements Geometry {
     
     @Override
     public List<Point3D> findIntersections(Ray ray){
-    	Vector p0Q;
+    	Vector vec;
         try {
-            p0Q = _point.subtract(ray.getPoint());
+            vec = _point.subtract(ray.getPoint());
         } catch (IllegalArgumentException e) {
-            return null; // ray starts from point Q - no intersections
+            return null; // ray starts from _point - no intersections
         }
 
         double nv = _normal.dotProduct(ray.getNormal());
         if (isZero(nv)) // ray is parallel to the plane - no intersections
             return null;
 
-        double t = alignZero(_normal.dotProduct(p0Q) / nv);
+        double t = alignZero(_normal.dotProduct(vec) / nv);
 
         return t <= 0 ? null : List.of(ray.getTargetPoint(t));
     }

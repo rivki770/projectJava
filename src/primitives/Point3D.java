@@ -35,7 +35,7 @@ public class Point3D {
 
     public final static Point3D ZERO = new Point3D( 0.0, 0.0, 0.0);
 
-    /*************** getters and setters ********************/
+    /*************** getters ********************/
     /**
      *
      * @return new Coordinate with _x value

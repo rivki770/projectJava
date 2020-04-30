@@ -74,7 +74,7 @@ public class Color {
         _b = 0.0;
         return this;
     }
-
+    
     /**
      * Color setter to generate a color according to RGB components Each component
      * in range 0..255 (for printed white color) or more [for lights]

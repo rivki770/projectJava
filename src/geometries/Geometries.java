@@ -4,11 +4,12 @@ import primitives.*;
 
 //import javax.print.DocFlavor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Geometries implements Intersectable {
 	
-	private List<Intersectable> _geometries;
+	private List<Intersectable> _geometries = new ArrayList<>();
 	
 	public Geometries() {
 		_geometries = new ArrayList<Intersectable>();
@@ -19,9 +20,10 @@ public class Geometries implements Intersectable {
     }
 
     public void add(Intersectable... geometries) {
-        for (Intersectable geo : geometries ) {
-            _geometries.add(geo);
-        }
+ //       for (Intersectable geo : geometries ) {
+ //           _geometries.add(geo);
+ //       }
+    	_geometries.addAll(Arrays.asList(geometries));
     }
 
     /**

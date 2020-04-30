@@ -31,7 +31,7 @@ public class Ray {
      * @param other vector for copy constructor
      */
     public Ray(Ray other) {
-        this._point = other._point;
+        this._point = new Point3D(other._point);
         this._normal = other._normal;
     }
 

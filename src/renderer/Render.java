@@ -4,7 +4,7 @@
 package renderer;
 
 import elements.Camera;
-import geometries.Intersectable;
+//import geometries.Intersectable;
 import primitives.*;
 
 import scene.Scene;
@@ -38,9 +38,9 @@ public class Render {
 	     * This function does not creating the picture file, but create the buffer pf pixels
 	     */
 	    public void renderImage() {
+	    	java.awt.Color background = _scene.getBackground().getColor();
 	        Camera camera= _scene.getCamera();
 	        //Intersectable geometries = _scene.getGeometries();
-	        java.awt.Color background = _scene.getBackground().getColor();
 	        double  distance = _scene.getDistance();
 
 	        int width = (int) _imageWriter.getWidth();

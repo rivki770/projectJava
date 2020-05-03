@@ -4,7 +4,7 @@
 package renderer;
 
 import elements.Camera;
-//import geometries.Intersectable;
+import geometries.Intersectable;
 import primitives.*;
 
 import scene.Scene;
@@ -38,9 +38,9 @@ public class Render {
 	     * This function does not creating the picture file, but create the buffer pf pixels
 	     */
 	    public void renderImage() {
+	    	Camera camera= _scene.getCamera();
+	    	Intersectable geometries = _scene.getGeometries();
 	    	java.awt.Color background = _scene.getBackground().getColor();
-	        Camera camera= _scene.getCamera();
-	        //Intersectable geometries = _scene.getGeometries();
 	        double  distance = _scene.getDistance();
 
 	        int width = (int) _imageWriter.getWidth();
@@ -52,14 +52,13 @@ public class Render {
 	        for (int row = 0; row < Ny; row++) {
 	            for (int column = 0; column < Nx; column++) {
 	                ray = camera.constructRayThroughPixel(Nx, Ny, column, row, distance, width, height);
-	                List<Point3D> intersectionPoints = _scene.getGeometries().findIntersections(ray);
+	                List<Point3D> intersectionPoints = geometries.findIntersections(ray);
 	                if (intersectionPoints == null) {
 	                    _imageWriter.writePixel(column, row, background);
 	                } 
 	                else {
 	                    Point3D closestPoint = getClosestPoint(intersectionPoints);
 	                    _imageWriter.writePixel(column, row, calcColor(closestPoint));
-	                    //_imageWriter.writePixel(column-1, row-1, calcColor(closestPoint));
 	                }
 	            }
 	        }
@@ -87,6 +86,7 @@ public class Render {
 	        }
 	        return  result;
 	    }
+	    
 
 	    /**
 	     * Printing the grid with a fixed interval between lines
@@ -94,7 +94,7 @@ public class Render {
 	     */
 	    public void printGrid(int interval,Color colorsep) {
 	        double rows = this._imageWriter.getNx();
-	        double collumns = _imageWriter.getNy();
+	        double collumns = this._imageWriter.getNy();
 	        //Writing the lines.
 	        for (int col = 0; col < collumns; col++) {
 	            for (int row = 0; row < rows; row++) {
@@ -104,6 +104,7 @@ public class Render {
 	            }
 	        }
 	    }
+	    
 
 	    public void writeToImage() {
 	        _imageWriter.writeToImage();

@@ -13,7 +13,7 @@ public class AmbientLight {
 	
 	private Color _intensity;
 
-    public AmbientLight(Color ia, int ka) {
+    public AmbientLight(Color ia, double ka) {
         this._intensity = ia.scale(ka);
     }
     

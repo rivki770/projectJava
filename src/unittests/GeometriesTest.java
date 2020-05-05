@@ -10,7 +10,7 @@ import org.junit.Test;
 import geometries.*;
 import primitives.*;
 /**
- *  Unit test for geometries.Geometries class
+ * Unit test for geometries.Geometries class
  * @author rivki_kanterovich
  */
 public class GeometriesTest {

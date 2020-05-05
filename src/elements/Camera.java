@@ -1,6 +1,3 @@
-/**
- * Camera: class for representing a camera in model
- */
 package elements;
 
 import primitives.*;
@@ -9,8 +6,8 @@ import static primitives.Util.*;
 //import static primitives.Util.isZero;
 
 /**
+ * Camera: class for representing a camera in model
  * @author rivki_kanterovich
- *
  */
 public class Camera {
 	

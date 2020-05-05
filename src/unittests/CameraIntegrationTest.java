@@ -14,8 +14,8 @@ import elements.*;
 import java.util.List;
 
 /**
+ *  Unit test for element.Camera class
  * @author rivki_kanterovich
- *
  */
 public class CameraIntegrationTest {
 

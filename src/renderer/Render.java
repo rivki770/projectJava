@@ -1,6 +1,3 @@
-/**
- * 
- */
 package renderer;
 
 import elements.Camera;
@@ -12,23 +9,38 @@ import scene.Scene;
 import java.awt.Color;
 import java.util.List;
 /**
+ * Render: rendering a image
  * @author rivki_kanterovich
- *
  */
 public class Render {
 
 	    private Scene _scene;
 	    private ImageWriter _imageWriter;
 
+	    /*************** Constructor ********************/
+	    /**
+	     * Constructor for creating a render
+	     * @param _scene is a details of model.
+	     */
 	    public Render(Scene _scene) {
 	        this._scene = _scene;
 	    }
 
+	    /**
+	     * Constructor for creating a render
+	     * @param scene is a details of model.
+	     * @param imageWriter is a details of the image of a model.
+	     */
 	    public Render(ImageWriter imageWriter, Scene scene) {
 	        this._imageWriter = imageWriter;
 	        this._scene= scene;
 	    }
 
+	    /*************** getters ********************/
+	    /**
+	     *
+	     * @return scene
+	     */
 	    public Scene get_scene() {
 	        return _scene;
 	    }

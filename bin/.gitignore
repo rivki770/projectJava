@@ -1,3 +1,5 @@
-/elements/
 /unittests/
+/elements/
+/geometries/
+/scene/
 /renderer/

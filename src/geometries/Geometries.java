@@ -11,25 +11,33 @@ public class Geometries implements Intersectable {
 	
 	private List<Intersectable> _geometries = new ArrayList<>();
 	
+	 /*************** Constructor ********************/
+    /**
+     * default constructor
+     */
 	public Geometries() {
 		_geometries = new ArrayList<Intersectable>();
 	}
 
+	/**
+     * parameters constructor
+     */
     public Geometries(Intersectable... _geometries) {
         add( _geometries);
     }
 
+    /**
+    * Add geometries in the geometries collection
+    * @param geometrie
+    */
     public void add(Intersectable... geometries) {
- //       for (Intersectable geo : geometries ) {
- //           _geometries.add(geo);
- //       }
     	_geometries.addAll(Arrays.asList(geometries));
     }
 
     /**
      *
      * @param ray
-     * @return list of Point3D that intersect the osef
+     * @return list of Point3D that intersect the geometries collection
      */
     @Override
     public List<Point3D> findIntersections(Ray ray) {

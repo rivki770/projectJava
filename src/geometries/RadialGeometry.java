@@ -5,7 +5,7 @@ package geometries;
  * RadialGeometry: class for representing radius
  */
 
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
     double _radius;
 
     /*************** Constructor And Copy Constructor ********************/

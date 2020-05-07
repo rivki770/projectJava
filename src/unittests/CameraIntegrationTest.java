@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import primitives.*;
 import geometries.*;
+import geometries.Intersectable.GeoPoint;
 import elements.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithSphere1() {
         //TO DO
         Sphere sph =  new Sphere(1, new Point3D(0, 0, 3));
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         int Nx =3;
         int Ny =3;
@@ -58,7 +59,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithSphere2() {
         Sphere sph =  new Sphere(2.5, new Point3D(0, 0, 2.5));
 
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         // TODO explanations
         int Nx =3;
@@ -86,7 +87,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithSphere3() {
         Sphere sph =  new Sphere(2, new Point3D(0, 0, 2));
 
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         // TODO explanations
         int Nx =3;
@@ -114,7 +115,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithSphere4() {
         //TO DO
         Sphere sph =  new Sphere(4, new Point3D(0, 0, 1));
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         int Nx =3;
         int Ny =3;
@@ -139,7 +140,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithSphere5() {
         //TO DO
         Sphere sph =  new Sphere(0.5, new Point3D(0, 0, -1));
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         int Nx =3;
         int Ny =3;
@@ -165,7 +166,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithTriangle1() {
         //TO DO
         Triangle tr1 =  new Triangle(new Point3D(0, -1, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         int Nx =3;
         int Ny =3;
@@ -190,7 +191,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithTriangle2() {
         //TO DO
         Triangle tr2 =  new Triangle(new Point3D(0, -20, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         int Nx =3;
         int Ny =3;
@@ -215,7 +216,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithPlane1() {
         //TO DO
         Plane pl1 =  new Plane(new Point3D(0, -1, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         int Nx =3;
         int Ny =3;
@@ -239,7 +240,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithPlane2() {
         //TO DO
         Plane pl2 =  new Plane(new Point3D(0, -1.5, 1), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         int Nx =3;
         int Ny =3;
@@ -264,7 +265,7 @@ public class CameraIntegrationTest {
     public void constructRayThroughPixelWithPlane3() {
         //TO DO
         Plane pl3 =  new Plane(new Point3D(0, -0.5, 0), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
-        List<Point3D> results;
+        List<GeoPoint> results;
         int count = 0;
         int Nx =3;
         int Ny =3;

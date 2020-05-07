@@ -1,5 +1,5 @@
 /**
- * AmbientLight: class for representing a AmbientLight on a model
+1 * AmbientLight: class for representing a AmbientLight on a model
  */
 package elements;
 

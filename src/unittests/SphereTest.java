@@ -4,9 +4,12 @@
 package unittests;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
+import geometries.Intersectable.GeoPoint;
 import geometries.Sphere;
 import primitives.*;
 
@@ -55,23 +58,35 @@ public class SphereTest {
         Point3D p1 = new Point3D(0.0651530771650466, 0.355051025721682, 0);
         Point3D p2 = new Point3D(1.53484692283495, 0.844948974278318, 0);
         List<Point3D> exp = List.of(p1, p2);
+        List<Point3D> points = new ArrayList<>();
 
         // TC01: Ray's line is outside the sphere (0 points)
         assertNull("Ray's line out of sphere", sphere.findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(1, 1, 0))));
 
         // TC02: Ray starts before and crosses the sphere (2 points)
-        List<Point3D> result = sphere.findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(3, 1, 0)));
+        List<GeoPoint> result = sphere.findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(3, 1, 0)));
 
         assertEquals("Wrong number of points", 2, result.size());
-        if (result.get(0).get_x().get() > result.get(1).get_x().get()) {
-            result = List.of(result.get(1), result.get(0));
+        points.clear();
+        
+        for (GeoPoint geo : result) {
+            points.add(geo._point);
         }
-        assertEquals("Ray crosses sphere", exp, result);
+        
+        if (points.get(0).get_x().get() > points.get(1).get_x().get()) {
+        	points = List.of(points.get(1), points.get(0));
+        }
+        assertEquals("Ray crosses sphere", exp, points);
 
         // TC03: Ray starts inside the sphere (1 point)
+        List<GeoPoint> result03 = sphere.findIntersections(new Ray(new Point3D(0.5, 0.5, -0.5), new Vector(1.5, -0.5, 0.5)));
+        points.clear();
+        for (GeoPoint geo : result03) {
+            points.add(geo._point);
+        }
         assertEquals( "Ray from inside sphere",
         		List.of(new Point3D(2, 0, 0)),
-                sphere.findIntersections(new Ray(new Point3D(0.5, 0.5, -0.5), new Vector(1.5, -0.5, 0.5))));
+                points);
 
         // TC04: Ray starts after the sphere (0 points)
         assertNull("Sphere behind Ray", sphere.findIntersections(new Ray(new Point3D(2, 1, 0), new Vector(1, 1, 0.5))));
@@ -80,10 +95,14 @@ public class SphereTest {
         // **** Group: Ray's line crosses the sphere (but not the center)
 
         // TC11: Ray starts at sphere and goes inside (1 points)
+        List<GeoPoint> result11 = sphere.findIntersections(new Ray(new Point3D(1, 1, 0), new Vector(1, -1, 0)));
+        points.clear();
+        for (GeoPoint geo : result11) {
+            points.add(geo._point);
+        }
         assertEquals("Ray from sphere inside",
-        		List.of(new Point3D(2, 0, 0)),
-                sphere.findIntersections(new Ray(new Point3D(1, 1, 0), new Vector(1, -1, 0))));
-
+        		List.of(new Point3D(2, 0, 0)), points);
+        
         // TC12: Ray starts at sphere and goes outside (0 points)
         assertNull("Ray from sphere outside",
         		sphere.findIntersections(new Ray(new Point3D(1, 1, 0), new Vector(1, 1, 0))) );
@@ -91,31 +110,46 @@ public class SphereTest {
         // **** Group: Ray's line goes through the center
         
         // TC13: Ray starts before the sphere (2 points)
-        result = sphere.findIntersections(new Ray(new Point3D(1, -3, 0), new Vector(0, 1, 0)));
-
+        List<GeoPoint> result13 = sphere.findIntersections(new Ray(new Point3D(1, -3, 0), new Vector(0, 1, 0)));
         assertEquals("Wrong number of points", 2, result.size());
+        points.clear();
+        for (GeoPoint geo : result13) {
+            points.add(geo._point);
+        }
         
-        //if (result.get(0).get_y().get() > result.get(1).get_y().get()) {
-          //  result = List.of(result.get(1), result.get(0));
-        //}
-        
-        assertEquals("ray needs crosses sphere", List.of(new Point3D(1, -1, 0), new Point3D(1, 1, 0)), result);
+       if (points.get(0).get_y().get() > points.get(1).get_y().get()) {
+          result = List.of(result13.get(1), result13.get(0));
+       }
+
+        assertEquals("ray needs crosses sphere", List.of(new Point3D(1, -1, 0), new Point3D(1, 1, 0)), points);
 
         // TC14: Ray starts at sphere and goes inside (1 points)
+        List<GeoPoint> result14 = sphere.findIntersections(new Ray(new Point3D(2, 0, 0), new Vector(-1, -1, 0)));
+        points.clear();
+        for (GeoPoint geo : result14) {
+            points.add(geo._point);
+        }
         assertEquals("ray from sphere, and crosses sphere",
-        		List.of(new Point3D(1, -1, 0)),
-                sphere.findIntersections(new Ray(new Point3D(2, 0, 0), new Vector(-1, -1, 0))));
+        		List.of(new Point3D(1, -1, 0)), points);
 
         // TC15: Ray starts inside (1 points)
+        List<GeoPoint> result15 = sphere.findIntersections(new Ray(new Point3D(1, -0.5, 0), new Vector(0, -1, 0)));
+        points.clear();
+        for (GeoPoint geo : result15) {
+            points.add(geo._point);
+        }
         assertEquals("ray from inside sphere",
-        		List.of(new Point3D(1, -1, 0)),
-                sphere.findIntersections(new Ray(new Point3D(1, -0.5, 0), new Vector(0, -1, 0))));
+        		List.of(new Point3D(1, -1, 0)), points);
 
         // TC16: Ray starts at the center (1 points)
+        List<GeoPoint> result16 = sphere.findIntersections(new Ray(new Point3D(1, 0, 0), new Vector(0, -1, 0)));
+        points.clear();
+        for (GeoPoint geo : result16) {
+            points.add(geo._point);
+        }
         assertEquals("ray from a center of sphere",
-        		List.of(new Point3D(1, -1, 0)),
-                sphere.findIntersections(new Ray(new Point3D(1, 0, 0), new Vector(0, -1, 0))));
-
+        		List.of(new Point3D(1, -1, 0)), points);
+        
         // TC17: Ray starts at sphere and goes outside (0 points)
         assertNull("ray from sphere outside",
         		sphere.findIntersections(new Ray(new Point3D(1, -1, 0), new Vector(0, -1, 0))));

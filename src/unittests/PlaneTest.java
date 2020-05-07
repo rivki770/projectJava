@@ -5,12 +5,14 @@ package unittests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
 import geometries.*;
 import primitives.*;
+import geometries.Intersectable.GeoPoint;
 
 /**
  * Unit test for geometries.Plane class
@@ -34,13 +36,20 @@ public class PlaneTest {
 	@Test
 	public void testfindIntersectionsRay() {
 		
+		List<Point3D> points = new ArrayList<>();
+		
 		// ========== Equivalence Partition Test ==========
 		
 		Plane p1 = new Plane(new Point3D(3, 0, 4), new Point3D(0, 0, 1), new Point3D(1, 0, 0));
 		
 		// TC01: Ray intersects the plane (1 point)
 		Ray r1 = new Ray(new Point3D(-2, -2, -2), new Vector(3, 3 ,2)); 
-		assertEquals("findIntersections() result isn't intersects the plane", p1.findIntersections(r1), List.of(new Point3D(0, 0, -2d/3)));
+		List<GeoPoint> result01 = p1.findIntersections(r1);
+		points.clear();
+        for (GeoPoint geo : result01) {
+            points.add(geo._point);
+        }
+		assertEquals("findIntersections() result isn't intersects the plane", points, List.of(new Point3D(0, 0, -2d/3)));
 		assertEquals("findIntersections() result isn't intersects the plane", p1.findIntersections(r1).size(), 1);
 	
 		// TC02: Ray dosen't intersect the plane (0 point)
@@ -60,7 +69,12 @@ public class PlaneTest {
 		
 		// TC13: Ray is orthogonal to the plane (before the plane) (1 point)
 		Ray r5 = new Ray(new Point3D(1, 5, 3), new Vector(0, -5 ,0));
-		assertEquals("findIntersections() result isn't meeting in the plane", p1.findIntersections(r5), List.of(new Point3D(1, 0, 3)));
+		List<GeoPoint> result13 = p1.findIntersections(r5);
+		points.clear();
+        for (GeoPoint geo : result13) {
+            points.add(geo._point);
+        }
+		assertEquals("findIntersections() result isn't meeting in the plane", points, List.of(new Point3D(1, 0, 3)));
 		assertEquals("findIntersections() result isn't meeting in the plane", p1.findIntersections(r5).size(), 1);
 		
 		// TC14: Ray is orthogonal to the plane (in the plane) (0 point)

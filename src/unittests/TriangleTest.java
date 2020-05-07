@@ -5,11 +5,13 @@ package unittests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 import geometries.*;
 import primitives.*;
+import geometries.Intersectable.GeoPoint;
 
 /**
  * Unit test for geometries.Triangle class
@@ -34,12 +36,20 @@ public class TriangleTest {
 	@Test
 	public void testfindIntersectionsRay() {
 		
+		List<Point3D> points = new ArrayList<>();
+		
 		// ========== Equivalence Partition Test ==========
 		Triangle t1 = new Triangle(new Point3D(3, 0, 0), new Point3D(1, 0, 0), new Point3D(-2, 0, 5));
 		
 		// TC01: The Point inside triangle (1 point)
 		Ray r1 = new Ray(new Point3D(2, 1, 0), new Vector(0, -4, 1));
-		assertEquals("findIntersections() result isn't inside of a triangle", t1.findIntersections(r1), List.of(new Point3D(2, 0, 0.25)));
+		List<GeoPoint> result01 = t1.findIntersections(r1);
+        points.clear();
+        
+        for (GeoPoint geo : result01) {
+            points.add(geo._point);
+        }
+		assertEquals("findIntersections() result isn't inside of a triangle", points, List.of(new Point3D(2, 0, 0.25)));
 		
 		// TC02: The Point outside against edge (0 point)
 		Ray r2 = new Ray(new Point3D(2, 1, 0), new Vector(2, -1, 5));

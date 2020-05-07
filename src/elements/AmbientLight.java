@@ -9,9 +9,7 @@ import primitives.*;
  * @author Rivki_Kanterovich
  *
  */
-public class AmbientLight {
-	
-	private Color _intensity;
+public class AmbientLight extends Light{
 	
 	/*************** Constructor ********************/
     /**
@@ -24,12 +22,4 @@ public class AmbientLight {
         this._intensity = ia.scale(ka);
     }
     
-    /*************** getters ********************/
-    /**
-     *
-     * @return the color with ambientLight
-     */
-    public java.awt.Color getIntensity() {
-        return _intensity.getColor();
-    }
-}
+ }

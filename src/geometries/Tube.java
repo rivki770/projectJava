@@ -23,6 +23,11 @@ public class Tube extends RadialGeometry {
         this._axisRay = _axisRay;
     }
 
+    public Tube(Color _emmission, double _radius, Ray _axisRay) {
+        super(_radius);
+        this._axisRay = _axisRay;
+        this._emmission = _emmission;
+    }
     /**
      *
      * @param _radius number for radius in Sphere
@@ -32,6 +37,12 @@ public class Tube extends RadialGeometry {
     public Tube(double _radius, Vector _vec, Point3D _point) {
         super(_radius);
         this._axisRay = new Ray(_point, _vec);
+    }
+    
+    public Tube(Color _emmission, double _radius, Vector _vec, Point3D _point) {
+        super(_radius);
+        this._axisRay = new Ray(_point, _vec);
+        this._emmission = _emmission;
     }
 
     /*************** getters ********************/

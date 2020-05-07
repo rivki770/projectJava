@@ -105,7 +105,7 @@ public class Render {
 	     * Printing the grid with a fixed interval between lines
 	     * @param interval The interval between the lines.
 	     */
-	    public void printGrid(int interval,Color colorsep) {
+	    public void printGrid(int interval, Color colorsep) {
 	        double rows = this._imageWriter.getNx();
 	        double collumns = this._imageWriter.getNy();
 	        //Writing the lines.
@@ -129,12 +129,13 @@ public class Render {
 	     * @return the color intensity
 	     */
 	    private Color calcColor(GeoPoint intersection) {
-	        Color resultColor;
-	        Color ambientLight = _scene.getAmbientLight().getIntensity();
+	        primitives.Color resultColor;
+	        primitives.Color ambientLight = _scene.getAmbientLight().getIntensity();
 	        primitives.Color emissionLight = intersection.getGeometry().getEmissionLight();
 	        //List<LightSource> lights = _scene.getLightSources();
 
 	        resultColor = ambientLight;
-	        resultColor = resultColor.add(emissionLight.getColor());
+	        resultColor = resultColor.add(emissionLight);
+	        return resultColor.getColor();
 	    }
 }

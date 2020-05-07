@@ -13,7 +13,7 @@ import scene.Scene;
  * 
  * @author Dan
  */
-public class LightsTests {
+public class LightsTest {
 
     /**
      * Produce a picture of a sphere lighted by a directional light

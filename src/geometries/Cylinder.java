@@ -26,9 +26,13 @@ public class Cylinder extends Tube {
     }
     
     public Cylinder(Color _emmission, double _radius, Ray _axisRay, double _height) {
-        super(_radius, _axisRay);
-        this._height = _height;
+    	this(_radius, _axisRay, _height);
         this._emmission = _emmission;
+    }
+    
+    public Cylinder(Color _emmission, Material _material, double _radius, Ray _axisRay, double _height) {
+    	this(_emmission, _radius, _axisRay, _height);
+        this._material = _material;
     }
 
     /**
@@ -44,9 +48,13 @@ public class Cylinder extends Tube {
     }
     
     public Cylinder(Color _emmission, double _radius, Vector _vec, Point3D _point, double _height) {
-        super(_radius, _vec, _point);
-        this._height = _height;
+    	this(_radius, _vec, _point, _height);
         this._emmission = _emmission;
+    }
+    
+    public Cylinder(Color _emmission, Material _material, double _radius, Vector _vec, Point3D _point, double _height) {
+    	this(_emmission, _radius, _vec, _point, _height);
+        this._material = _material;
     }
 
     /*************** getters ********************/

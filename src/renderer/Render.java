@@ -3,10 +3,11 @@ package renderer;
 import elements.*;
 import geometries.*;
 import primitives.*;
+import static primitives.Util.*;
 import geometries.Intersectable.GeoPoint;
 import scene.Scene;
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.util.List;
 /**
  * Render: rendering a image
@@ -70,7 +71,8 @@ public class Render {
 	                } 
 	                else {
 	                	GeoPoint closestPoint = getClosestPoint(intersectionPoints);
-	                    _imageWriter.writePixel(column, row, calcColor(closestPoint));
+	                	java.awt.Color pixelColor = calcColor(closestPoint).getColor();
+	                    _imageWriter.writePixel(column, row, pixelColor);
 	                }
 	            }
 	        }
@@ -105,7 +107,7 @@ public class Render {
 	     * Printing the grid with a fixed interval between lines
 	     * @param interval The interval between the lines.
 	     */
-	    public void printGrid(int interval, Color colorsep) {
+	    public void printGrid(int interval, java.awt.Color colorsep) {
 	        double rows = this._imageWriter.getNx();
 	        double collumns = this._imageWriter.getNy();
 	        //Writing the lines.
@@ -128,14 +130,51 @@ public class Render {
 	     * @param point the point for which the color is required
 	     * @return the color intensity
 	     */
-	    private Color calcColor(GeoPoint intersection) {
-	        primitives.Color resultColor;
-	        primitives.Color ambientLight = _scene.getAmbientLight().getIntensity();
-	        primitives.Color emissionLight = intersection.getGeometry().getEmissionLight();
-	        //List<LightSource> lights = _scene.getLightSources();
+	    private Color calcColor(GeoPoint gp) {
+	        Color result = new Color(_scene.getAmbientLight().getIntensity());
+	        result = result.add(gp.getGeometry().getEmissionLight());
 
-	        resultColor = ambientLight;
-	        resultColor = resultColor.add(emissionLight);
-	        return resultColor.getColor();
+	        Vector v = gp.getPoint().subtract(_scene.getCamera().get_p0()).normalize();
+	        Vector n = gp.getGeometry().getNormal(gp.getPoint());
+
+	        Material material = gp.getGeometry().getMaterial();
+	        int nShininess = material.getnShininess();
+	        double kd = material.getkD();
+	        double ks = material.getkS();
+	        if (_scene.getLightSources() != null) {
+	            for (LightSource lightSource : _scene.getLightSources()) {
+
+	                Vector l = lightSource.getL(gp.getPoint());
+	                double nl = alignZero(n.dotProduct(l));
+	                double nv = alignZero(n.dotProduct(v));
+
+	                if (sign(nl) == sign(nv)) {
+	                    Color ip = lightSource.getIntensity(gp.getPoint());
+	                    result = result.add(
+	                            calcDiffusive(kd, nl, ip),
+	                            calcSpecular(ks, l, n, nl, v, nShininess, ip)
+	                    );
+	                }
+	            }
+	        }
+
+	        return result;
+	    }
+	    
+	    private Color calcSpecular(double ks, Vector l, Vector n, double nl, Vector v, int nShininess, Color ip) {
+	        Vector r = l.add(n.scale(-2 * nl)); // nl must not be zero!
+	        double minusVR = -alignZero(r.dotProduct(v));
+	        if (minusVR <= 0) return Color.BLACK; // view from direction opposite to r vector
+	        return ip.scale(ks * Math.pow(minusVR, nShininess));
+	    }
+
+	    private Color calcDiffusive(double kd, double nl, Color ip) {
+	        if (nl < 0) nl = -nl;
+	        return ip.scale(nl * kd);
+	    }
+
+
+	    private boolean sign(double val) {
+	        return (val > 0d);
 	    }
 }

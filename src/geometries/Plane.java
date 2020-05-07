@@ -25,9 +25,13 @@ public class Plane extends Geometry {
     }
     
     public Plane(Color _emmission, Point3D point, Vector normal) {
-        this._point = point;
-        this._normal = normal;
+        this(point, normal);
         this._emmission = _emmission;
+    }
+    
+    public Plane(Color _emmission, Material _material, Point3D point, Vector normal) {
+        this(_emmission, point, normal);
+        this._material = _material;
     }
 
     /**
@@ -47,14 +51,13 @@ public class Plane extends Geometry {
     }
     
     public Plane(Color _emmission, Point3D vertex, Point3D vertex1, Point3D vertex2) {
-        this._point = vertex;
-        Vector v = new Vector(vertex.subtract(vertex1));
-        Vector u = new Vector(vertex.subtract(vertex2));
-        Vector n = new Vector(v.crossProduct(u));
-        n.normalize();
-        //n = n.scale(-1);
-        this._normal = n;
+    	this(vertex, vertex1, vertex2);
         this._emmission = _emmission;
+    }
+    
+    public Plane(Color _emmission, Material _material, Point3D vertex, Point3D vertex1, Point3D vertex2) {
+    	this(_emmission, vertex, vertex1, vertex2);
+        this._material = _material;
     }
 
     /*************** getters ********************/

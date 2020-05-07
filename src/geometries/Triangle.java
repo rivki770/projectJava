@@ -18,6 +18,10 @@ public class Triangle extends Polygon {
     public Triangle(Color _emmission, Point3D p1, Point3D p2, Point3D p3) {
     	super(_emmission, p1, p2, p3);
 	}
+    
+    public Triangle(Color _emmission, Material _material, Point3D p1, Point3D p2, Point3D p3) {
+    	super(_emmission, _material, p1, p2, p3);
+	}
 
 	@Override
     public List<GeoPoint> findIntersections(Ray ray) {

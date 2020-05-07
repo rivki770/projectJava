@@ -82,8 +82,12 @@ public class Polygon extends Geometry {
 
     public Polygon(Color emmissionLight, Point3D... vertices) {
         this(vertices);
-        this._emmission = emmissionLight;
-    	
+        this._emmission = emmissionLight;	
+	}
+    
+    public Polygon(Color emmissionLight, Material _material, Point3D... vertices) {
+        this(emmissionLight, vertices);
+        this._material = _material;	
 	}
 
 	@Override

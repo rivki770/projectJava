@@ -163,7 +163,7 @@ public class Render {
 	    
 	    private Color calcSpecular(double ks, Vector l, Vector n, double nl, Vector v, int nShininess, Color ip) {
 	        Vector r = l.add(n.scale(-2 * nl)); // nl must not be zero!
-	        double minusVR = -alignZero(r.dotProduct(v));
+	        double minusVR = alignZero(r.dotProduct(v) * (-1));
 	        if (minusVR <= 0) return Color.BLACK; // view from direction opposite to r vector
 	        return ip.scale(ks * Math.pow(minusVR, nShininess));
 	    }

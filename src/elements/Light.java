@@ -13,9 +13,9 @@ public abstract class Light {
 	
     protected Color _intensity;
     
-    //public Light(Color _light) {
-    	//this._intensity = _light;
-    //}
+    public Light(Color _light) {
+    	this._intensity = _light;
+    }
     
     public Light() {
     	this._intensity = Color.BLACK;

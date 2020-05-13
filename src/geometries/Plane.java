@@ -15,63 +15,34 @@ public class Plane extends Geometry {
 
     /*************** Constructor ********************/
     /**
-     *
-     * @param point in the plane
-     * @param normal to plane
-     */
-    public Plane(Point3D point, Vector normal) {
-        this._point = point;
-        this._normal = normal;
-    }
-    
-    /*************** Constructor ********************/
-    /**
-     * @param _emmission is color of the geometry
-     * @param point in the plane
-     * @param normal to plane
-     */
-    public Plane(Color _emmission, Point3D point, Vector normal) {
-        this(point, normal);
-        this._emmission = _emmission;
-    }
-    
-    /*************** Constructor ********************/
-    /**
      * @param _emmission is color of the geometry
      * @param _material of the geometry
      * @param point in the plane
      * @param normal to plane
      */
     public Plane(Color _emmission, Material _material, Point3D point, Vector normal) {
-        this(_emmission, point, normal);
+        this._point = point;
+        this._normal = normal;
+        this._emmission = _emmission;
         this._material = _material;
-    }
-
-    /**
-     *
-     * @param vertex Point3D in the plane
-     * @param vertex1 Point3D in the plane
-     * @param vertex2 Point3D in the plane
-     */
-    public Plane(Point3D vertex, Point3D vertex1, Point3D vertex2) {
-        this._point = vertex;
-        Vector v = new Vector(vertex.subtract(vertex1));
-        Vector u = new Vector(vertex.subtract(vertex2));
-        Vector n = new Vector(v.crossProduct(u));
-        n.normalize();
-        //n = n.scale(-1);
-        this._normal = n;
     }
     
     /**
-    * @param _emmission is color of the geometry
-    * @param vertex Point3D in the plane
-    * @param vertex1 Point3D in the plane
-    * @param vertex2 Point3D in the plane
-    */
-    public Plane(Color _emmission, Point3D vertex, Point3D vertex1, Point3D vertex2) {
-    	this(vertex, vertex1, vertex2);
-        this._emmission = _emmission;
+     * @param _emmission is color of the geometry
+     * @param point in the plane
+     * @param normal to plane
+     */
+    public Plane(Color _emmission, Point3D point, Vector normal) {
+    	this(Color.BLACK, new Material(0, 0, 0), point, normal);
+    }
+    
+    /**
+     *
+     * @param point in the plane
+     * @param normal to plane
+     */
+    public Plane(Point3D point, Vector normal) {
+        this(Color.BLACK, point, normal);
     }
     
     /**
@@ -82,10 +53,37 @@ public class Plane extends Geometry {
     * @param vertex2 Point3D in the plane
     */
     public Plane(Color _emmission, Material _material, Point3D vertex, Point3D vertex1, Point3D vertex2) {
-    	this(_emmission, vertex, vertex1, vertex2);
+    	this._point = vertex;
+        Vector v = new Vector(vertex.subtract(vertex1));
+        Vector u = new Vector(vertex.subtract(vertex2));
+        Vector n = new Vector(v.crossProduct(u));
+        n.normalize();
+        //n = n.scale(-1);
+        this._normal = n;
+        this._emmission = _emmission;
         this._material = _material;
     }
+    
+    /**
+    * @param _emmission is color of the geometry
+    * @param vertex Point3D in the plane
+    * @param vertex1 Point3D in the plane
+    * @param vertex2 Point3D in the plane
+    */
+    public Plane(Color _emmission, Point3D vertex, Point3D vertex1, Point3D vertex2) {
+    	this(_emmission, new Material(0, 0, 0), vertex, vertex1, vertex2);
+    }
 
+    /**
+     *
+     * @param vertex Point3D in the plane
+     * @param vertex1 Point3D in the plane
+     * @param vertex2 Point3D in the plane
+     */
+    public Plane(Point3D vertex, Point3D vertex1, Point3D vertex2) {
+    	this(Color.BLACK, vertex, vertex1, vertex2);
+    }
+    
     /*************** getters ********************/
     /**
      *

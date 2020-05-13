@@ -14,15 +14,17 @@ public class Cylinder extends Tube {
 
     /*************** Constructor ********************/
     /**
-     *
-     * @param _radius parameter of radius in a cylinder
-     * @param _axisRay parameter of ray
-     * @param _height parameter of height in cylinder
-     */
-
-    public Cylinder(double _radius, Ray _axisRay, double _height) {
+    * @param _emmission is color of the geometry
+    * @param _material of the geometry
+    * @param _radius parameter of radius in a cylinder
+    * @param _axisRay parameter of ray
+    * @param _height parameter of height in cylinder
+    */
+    public Cylinder(Color _emmission, Material _material, double _radius, Ray _axisRay, double _height) {
         super(_radius, _axisRay);
         this._height = _height;
+        this._emmission = _emmission;
+        this._material = _material;
     }
     
     /**
@@ -32,43 +34,18 @@ public class Cylinder extends Tube {
     * @param _height parameter of height in cylinder
     */
     public Cylinder(Color _emmission, double _radius, Ray _axisRay, double _height) {
-    	this(_radius, _axisRay, _height);
-        this._emmission = _emmission;
+    	this(_emmission, new Material(0,0,0), _radius, _axisRay, _height);
     }
     
     /**
-    * @param _emmission is color of the geometry
-    * @param _material of the geometry
-    * @param _radius parameter of radius in a cylinder
-    * @param _axisRay parameter of ray
-    * @param _height parameter of height in cylinder
-    */
-    public Cylinder(Color _emmission, Material _material, double _radius, Ray _axisRay, double _height) {
-    	this(_emmission, _radius, _axisRay, _height);
-        this._material = _material;
-    }
-
-    /**
+     *
      * @param _radius parameter of radius in a cylinder
-     * @param _vec parameter vector for ray of cylinder
-     * @param _point parameter point for ray of cylinder
+     * @param _axisRay parameter of ray
      * @param _height parameter of height in cylinder
      */
-    public Cylinder(double _radius, Vector _vec, Point3D _point, double _height) {
-        super(_radius, _vec, _point);
-        this._height = _height;
-    }
-    
-    /**
-    * @param _emmission is color of the geometry
-    * @param _radius parameter of radius in a cylinder
-    * @param _vec parameter vector for ray of cylinder
-    * @param _point parameter point for ray of cylinder
-    * @param _height parameter of height in cylinder
-    */
-    public Cylinder(Color _emmission, double _radius, Vector _vec, Point3D _point, double _height) {
-    	this(_radius, _vec, _point, _height);
-        this._emmission = _emmission;
+
+    public Cylinder(double _radius, Ray _axisRay, double _height) {
+    	this(Color.BLACK, _radius, _axisRay, _height);
     }
     
     /**
@@ -80,9 +57,34 @@ public class Cylinder extends Tube {
     * @param _height parameter of height in cylinder
     */
     public Cylinder(Color _emmission, Material _material, double _radius, Vector _vec, Point3D _point, double _height) {
-    	this(_emmission, _radius, _vec, _point, _height);
+        super(_radius, _vec, _point);
+        this._height = _height;
         this._material = _material;
+        this._emmission = _emmission;
     }
+    
+    /**
+    * @param _emmission is color of the geometry
+    * @param _radius parameter of radius in a cylinder
+    * @param _vec parameter vector for ray of cylinder
+    * @param _point parameter point for ray of cylinder
+    * @param _height parameter of height in cylinder
+    */
+    public Cylinder(Color _emmission, double _radius, Vector _vec, Point3D _point, double _height) {
+    	this(_emmission, new Material(0,0,0),_radius, _vec, _point,_height); 
+    }
+    
+    /**
+     * @param _radius parameter of radius in a cylinder
+     * @param _vec parameter vector for ray of cylinder
+     * @param _point parameter point for ray of cylinder
+     * @param _height parameter of height in cylinder
+     */
+    public Cylinder(double _radius, Vector _vec, Point3D _point, double _height) {
+    	this(Color.BLACK, _radius, _vec, _point, _height);
+    }
+    
+
 
     /*************** getters ********************/
     /**

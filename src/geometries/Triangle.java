@@ -13,26 +13,6 @@ public class Triangle extends Polygon {
 	
     /*************** Constructor ********************/
     /**
-     *
-     * @param p1 is vertex of triangle
-     * @param p2 is vertex of triangle
-     * @param p2 is vertex of triangle
-     */
-    public Triangle(Point3D p1, Point3D p2, Point3D p3) {
-        super(p1, p2, p3);
-    }
-    
-    /**
-    * @param _emmission is color of the geometry
-    * @param p1 is vertex of triangle
-    * @param p2 is vertex of triangle
-    * @param p2 is vertex of triangle
-    */
-    public Triangle(Color _emmission, Point3D p1, Point3D p2, Point3D p3) {
-    	super(_emmission, p1, p2, p3);
-	}
-    
-    /**
     * @param _emmission is color of the geometry
     * @param _material of the geometry
     * @param p1 is vertex of triangle
@@ -42,6 +22,26 @@ public class Triangle extends Polygon {
     public Triangle(Color _emmission, Material _material, Point3D p1, Point3D p2, Point3D p3) {
     	super(_emmission, _material, p1, p2, p3);
 	}
+    
+    /**
+    * @param _emmission is color of the geometry
+    * @param p1 is vertex of triangle
+    * @param p2 is vertex of triangle
+    * @param p2 is vertex of triangle
+    */
+    public Triangle(Color _emmission, Point3D p1, Point3D p2, Point3D p3) {
+    	this(_emmission, new Material(0, 0, 0), p1, p2, p3);
+	}
+    
+    /**
+    *
+    * @param p1 is vertex of triangle
+    * @param p2 is vertex of triangle
+    * @param p2 is vertex of triangle
+    */
+   public Triangle(Point3D p1, Point3D p2, Point3D p3) {
+       this(Color.BLACK ,p1, p2, p3);
+   }
 
     /**
     *

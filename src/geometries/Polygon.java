@@ -41,8 +41,9 @@ public class Polygon extends Geometry {
      *                                  <li>The polygon is concave (not convex></li>
      *                                  </ul>
      */
-    public Polygon(Point3D... vertices) {
-        if (vertices.length < 3)
+    public Polygon(Color emissionLight, Material material, Point3D... vertices) {
+    	super(emissionLight, material);
+    	if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         _vertices = List.of(vertices);
         // Generate the plane according to the first three vertices and associate the
@@ -81,13 +82,11 @@ public class Polygon extends Geometry {
     }
 
     public Polygon(Color emmissionLight, Point3D... vertices) {
-        this(vertices);
-        this._emmission = emmissionLight;	
+    	this(emmissionLight, new Material(0, 0, 0), vertices);	
 	}
     
-    public Polygon(Color emmissionLight, Material _material, Point3D... vertices) {
-        this(emmissionLight, vertices);
-        this._material = _material;	
+    public Polygon(Point3D... vertices) {
+    	this(Color.BLACK, new Material(0, 0, 0), vertices);	
 	}
 
     /**

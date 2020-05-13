@@ -14,34 +14,34 @@ public class Sphere extends RadialGeometry{
 
     /*************** Constructor ********************/
     /**
+     * @param _emmission is color of the geometry
+     * @param _material of the geometry
+     * @param _radius number for radius in Sphere
+     * @param _center point3D in Sphere's center 
+     */
+     public Sphere(Color _emmission, Material _material, double _radius, Point3D _center) {
+         super(_radius);
+         this._center = _center;
+         this._material = _material;
+         this._emmission = _emmission;
+     }
+     
+    /**
+     * @param _emmission is color of the geometry
+     * @param _radius number for radius in Sphere
+     * @param _center point3D in Sphere's center
+     */
+     public Sphere(Color _emmission, double _radius, Point3D _center) {
+    	this(_emmission, new Material(0, 0, 0), _radius, _center);
+     }
+      
+    /**
      *
      * @param _radius number for radius in Sphere
      * @param _center point3D in Sphere's center
      */
     public Sphere(double _radius, Point3D _center) {
-        super(_radius);
-        this._center = _center;
-    }
-    
-    /**
-    * @param _emmission is color of the geometry
-    * @param _radius number for radius in Sphere
-    * @param _center point3D in Sphere's center
-    */
-    public Sphere(Color _emmission, double _radius, Point3D _center) {
-    	this(_radius, _center);
-        this._emmission = _emmission;
-    }
-    
-    /**
-    * @param _emmission is color of the geometry
-    * @param _material of the geometry
-    * @param _radius number for radius in Sphere
-    * @param _center point3D in Sphere's center
-    */
-    public Sphere(Color _emmission, Material _material, double _radius, Point3D _center) {
-    	this(_emmission, _radius, _center);
-        this._material = _material;
+        this(Color.BLACK, _radius, _center);
     }
 
     /*************** getters ********************/

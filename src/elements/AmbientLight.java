@@ -1,13 +1,10 @@
-/**
-1 * AmbientLight: class for representing a AmbientLight on a model
- */
 package elements;
 
 import primitives.*;
 
 /**
+ * AmbientLight: class for representing a AmbientLight on a model
  * @author Rivki_Kanterovich
- *
  */
 public class AmbientLight extends Light{
 	

@@ -24,11 +24,24 @@ public class Plane extends Geometry {
         this._normal = normal;
     }
     
+    /*************** Constructor ********************/
+    /**
+     * @param _emmission is color of the geometry
+     * @param point in the plane
+     * @param normal to plane
+     */
     public Plane(Color _emmission, Point3D point, Vector normal) {
         this(point, normal);
         this._emmission = _emmission;
     }
     
+    /*************** Constructor ********************/
+    /**
+     * @param _emmission is color of the geometry
+     * @param _material of the geometry
+     * @param point in the plane
+     * @param normal to plane
+     */
     public Plane(Color _emmission, Material _material, Point3D point, Vector normal) {
         this(_emmission, point, normal);
         this._material = _material;
@@ -50,11 +63,24 @@ public class Plane extends Geometry {
         this._normal = n;
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param vertex Point3D in the plane
+    * @param vertex1 Point3D in the plane
+    * @param vertex2 Point3D in the plane
+    */
     public Plane(Color _emmission, Point3D vertex, Point3D vertex1, Point3D vertex2) {
     	this(vertex, vertex1, vertex2);
         this._emmission = _emmission;
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param _material of the geometry
+    * @param vertex Point3D in the plane
+    * @param vertex1 Point3D in the plane
+    * @param vertex2 Point3D in the plane
+    */
     public Plane(Color _emmission, Material _material, Point3D vertex, Point3D vertex1, Point3D vertex2) {
     	this(_emmission, vertex, vertex1, vertex2);
         this._material = _material;
@@ -95,6 +121,11 @@ public class Plane extends Geometry {
         return getNormal(null);
     }
     
+    /**
+    *
+    * @param ray from camera
+    * @return list of intersections between ray and geometry
+    */
     @Override
     public List<GeoPoint> findIntersections(Ray ray){
     	Vector vec;

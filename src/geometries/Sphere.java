@@ -23,11 +23,22 @@ public class Sphere extends RadialGeometry{
         this._center = _center;
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param _radius number for radius in Sphere
+    * @param _center point3D in Sphere's center
+    */
     public Sphere(Color _emmission, double _radius, Point3D _center) {
     	this(_radius, _center);
         this._emmission = _emmission;
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param _material of the geometry
+    * @param _radius number for radius in Sphere
+    * @param _center point3D in Sphere's center
+    */
     public Sphere(Color _emmission, Material _material, double _radius, Point3D _center) {
     	this(_emmission, _radius, _center);
         this._material = _material;
@@ -72,6 +83,11 @@ public class Sphere extends RadialGeometry{
     	return n;
     }
     
+    /**
+    *
+    * @param ray from camera
+    * @return list of intersections between ray and geometry
+    */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
         Point3D p0 = ray.getPoint();

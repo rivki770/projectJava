@@ -90,11 +90,21 @@ public class Polygon extends Geometry {
         this._material = _material;	
 	}
 
+    /**
+    *
+    * @param point of Point3D in polygon
+    * @return Normal for plane
+    */
 	@Override
     public Vector getNormal(Point3D point) {
         return _plane.getNormal();
     }
     
+    /**
+    *
+    * @param ray from camera
+    * @return list of intersections between ray and geometry
+    */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
         List<GeoPoint> intersections = _plane.findIntersections(ray);

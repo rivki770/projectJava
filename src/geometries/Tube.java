@@ -23,25 +23,57 @@ public class Tube extends RadialGeometry {
         this._axisRay = _axisRay;
     }
 
+    /**
+    * @param _emmission is color of the geometry
+    * @param _radius number for radius in Sphere
+    * @param _axisRay parameter of ray
+    */
     public Tube(Color _emmission, double _radius, Ray _axisRay) {
-        super(_radius);
-        this._axisRay = _axisRay;
+        this(_radius, _axisRay);
         this._emmission = _emmission;
     }
+    
     /**
-     *
-     * @param _radius number for radius in Sphere
-     * @param _vec parameter vector for ray of cylinder
-     * @param _point parameter point for ray of cylinder
-     */
+    * @param _emmission is color of the geometry
+    * @param _material of the geometry
+    * @param _radius number for radius in Sphere
+    * @param _axisRay parameter of ray
+    */
+    public Tube(Color _emmission, Material _material, double _radius, Ray _axisRay) {
+    	this(_emmission, _radius, _axisRay);
+    	this._material = _material;
+    }
+    
+    /**
+    * @param _radius number for radius in Sphere
+    * @param _vec parameter vector for ray of cylinder
+    * @param _point parameter point for ray of cylinder
+    */
     public Tube(double _radius, Vector _vec, Point3D _point) {
         super(_radius);
         this._axisRay = new Ray(_point, _vec);
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param _radius number for radius in Sphere
+    * @param _vec parameter vector for ray of cylinder
+    * @param _point parameter point for ray of cylinder
+    */
     public Tube(Color _emmission, double _radius, Vector _vec, Point3D _point) {
-        super(_radius);
-        this._axisRay = new Ray(_point, _vec);
+        this(_radius, _vec, _point);
+        this._emmission = _emmission;
+    }
+    
+    /**
+    * @param _emmission is color of the geometry
+    * @param _material of the geometry
+    * @param _radius number for radius in Sphere
+    * @param _vec parameter vector for ray of cylinder
+    * @param _point parameter point for ray of cylinder
+    */
+    public Tube(Color _emmission,  Material _material, double _radius, Vector _vec, Point3D _point) {
+    	this(_emmission, _radius, _vec, _point);
         this._emmission = _emmission;
     }
 
@@ -89,6 +121,11 @@ public class Tube extends RadialGeometry {
         return n;
     }
     
+    /**
+    *
+    * @param ray from camera
+    * @return list of intersections between ray and geometry
+    */
     @Override
     public List<GeoPoint> findIntersections(Ray ray){
     	return null;

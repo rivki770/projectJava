@@ -10,19 +10,41 @@ public interface Intersectable {
 		public Geometry _geometry;
         public Point3D _point;
         
+        /*************** Constructor ********************/
+        /**
+         *
+         * @param geometry
+         * @param pt is point3D
+         */
         public GeoPoint(Geometry geometry, Point3D pt) {
             this._geometry = geometry;
             this._point = pt;
         }
         
+        /*************** getters ********************/
+        /**
+         *
+         * @return a point3D
+         */
         public Point3D getPoint() {
             return  new Point3D(_point);
         }
+        /**
+        *
+        * @return a geometry
+        */
         public Geometry getGeometry() {
             return  _geometry;
         }
         
+        /*************** toString() and equals() ********************/
+		
 		@Override
+	    public String toString() {
+	        return _point.toString();
+		}
+        
+        @Override
 		public boolean equals(Object obj) {
 			if (this == obj) return true;
 			if (obj == null) return false;
@@ -36,13 +58,6 @@ public interface Intersectable {
 			} else if (!_point.equals(other._point)) return false;
 			return true;
 		}
-		
-		@Override
-	    public String toString() {
-	        return _point.toString();
-		}
 	}
-	
 	List<GeoPoint> findIntersections(Ray ray);
-
 }

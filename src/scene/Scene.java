@@ -9,7 +9,7 @@ import elements.*;
 import geometries.*;
 
 /**
- * Scene: class for representing image in environment
+ * Scene: class for create image in environment
  * @author rivki_kanterovich
  */
 public class Scene {
@@ -83,7 +83,7 @@ public class Scene {
 	
 	/**
     *
-    * @return 
+    * @return a list of lights in scene
     */
     public List<LightSource> getLightSources() {
         return _lights;
@@ -132,6 +132,10 @@ public class Scene {
 	     }
 	}
 	
+    /**
+    *
+    * @param light is list of light in a scene
+    */
     public void addLights(LightSource... light) {
     	for(LightSource i : light) {
     		_lights.add(i);

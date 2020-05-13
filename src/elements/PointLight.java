@@ -1,13 +1,11 @@
-/**
- * 
- */
 package elements;
 
 import primitives.*;
 
+
 /**
+ * Camera: class for representing a PointLight on a model
  * @author rivki_kanterovich
- *
  */
 public class PointLight extends Light implements LightSource{
 	protected Point3D _position;
@@ -15,6 +13,16 @@ public class PointLight extends Light implements LightSource{
 	protected double _kL;
 	protected double _kQ;
 	
+    /*************** Constructor ********************/
+    /**
+     * Constructor for creating a pointLight
+     *
+     * @param colorintensity is color intensity
+     * @param _position is point of a lights.
+     * @param _kC is exclusion factor
+     * @param _kL is exclusion factor
+     * @param _kQ is exclusion factor
+     */
     public PointLight(Color colorIntensity, Point3D _position, double _kC, double _kL, double _kQ) {
         this._intensity = colorIntensity;
         this._position = new Point3D(_position);
@@ -23,6 +31,10 @@ public class PointLight extends Light implements LightSource{
         this._kQ = _kQ;
     }
 	
+    /**
+     * @param p the geometries point
+     * @return the color in point of geometries
+     */
     @Override
 	public Color getIntensity(Point3D p) {
         double dsquared = p.distanceSquared(_position);
@@ -33,6 +45,10 @@ public class PointLight extends Light implements LightSource{
         return IL;
 	}
 	
+    /**
+     * @param p the geometries point
+     * @return a vector from light to geometries
+     */
     @Override
 	public Vector getL(Point3D p) {
 		

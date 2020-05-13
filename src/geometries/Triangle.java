@@ -10,19 +10,44 @@ import static primitives.Util.*;
  */
 
 public class Triangle extends Polygon {
-
+	
+    /*************** Constructor ********************/
+    /**
+     *
+     * @param p1 is vertex of triangle
+     * @param p2 is vertex of triangle
+     * @param p2 is vertex of triangle
+     */
     public Triangle(Point3D p1, Point3D p2, Point3D p3) {
         super(p1, p2, p3);
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param p1 is vertex of triangle
+    * @param p2 is vertex of triangle
+    * @param p2 is vertex of triangle
+    */
     public Triangle(Color _emmission, Point3D p1, Point3D p2, Point3D p3) {
     	super(_emmission, p1, p2, p3);
 	}
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param _material of the geometry
+    * @param p1 is vertex of triangle
+    * @param p2 is vertex of triangle
+    * @param p2 is vertex of triangle
+    */
     public Triangle(Color _emmission, Material _material, Point3D p1, Point3D p2, Point3D p3) {
     	super(_emmission, _material, p1, p2, p3);
 	}
 
+    /**
+    *
+    * @param ray from camera
+    * @return list of intersections between ray and geometry
+    */
 	@Override
     public List<GeoPoint> findIntersections(Ray ray) {
         List<GeoPoint> intersections = _plane.findIntersections(ray);

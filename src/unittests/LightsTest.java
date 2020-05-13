@@ -167,6 +167,9 @@ public class LightsTest {
         render.writeToImage();
     }
     
+    /**
+     * Produce a picture of a sphere lighted with all lights
+     */
     @Test
     public void sphereMultiLight() {
         Scene scene = new Scene("Test scene");
@@ -190,6 +193,9 @@ public class LightsTest {
         render.writeToImage();
     }
     
+    /**
+     * Produce a picture of a two triangles lighted with all lights
+     */
     @Test
     public void trianglesMultiLight() {
         Scene scene = new Scene("Test scene");

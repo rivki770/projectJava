@@ -25,18 +25,30 @@ public class Cylinder extends Tube {
         this._height = _height;
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param _radius parameter of radius in a cylinder
+    * @param _axisRay parameter of ray
+    * @param _height parameter of height in cylinder
+    */
     public Cylinder(Color _emmission, double _radius, Ray _axisRay, double _height) {
     	this(_radius, _axisRay, _height);
         this._emmission = _emmission;
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param _material of the geometry
+    * @param _radius parameter of radius in a cylinder
+    * @param _axisRay parameter of ray
+    * @param _height parameter of height in cylinder
+    */
     public Cylinder(Color _emmission, Material _material, double _radius, Ray _axisRay, double _height) {
     	this(_emmission, _radius, _axisRay, _height);
         this._material = _material;
     }
 
     /**
-     *
      * @param _radius parameter of radius in a cylinder
      * @param _vec parameter vector for ray of cylinder
      * @param _point parameter point for ray of cylinder
@@ -47,11 +59,26 @@ public class Cylinder extends Tube {
         this._height = _height;
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param _radius parameter of radius in a cylinder
+    * @param _vec parameter vector for ray of cylinder
+    * @param _point parameter point for ray of cylinder
+    * @param _height parameter of height in cylinder
+    */
     public Cylinder(Color _emmission, double _radius, Vector _vec, Point3D _point, double _height) {
     	this(_radius, _vec, _point, _height);
         this._emmission = _emmission;
     }
     
+    /**
+    * @param _emmission is color of the geometry
+    * @param _material of the geometry
+    * @param _radius parameter of radius in a cylinder
+    * @param _vec parameter vector for ray of cylinder
+    * @param _point parameter point for ray of cylinder
+    * @param _height parameter of height in cylinder
+    */
     public Cylinder(Color _emmission, Material _material, double _radius, Vector _vec, Point3D _point, double _height) {
     	this(_emmission, _radius, _vec, _point, _height);
         this._material = _material;
@@ -110,6 +137,11 @@ public class Cylinder extends Tube {
            return point.subtract(o).normalize();
     }
     
+    /**
+    *
+    * @param ray from camera
+    * @return list of intersections between ray and geometry
+    */
     @Override
     public List<GeoPoint> findIntersections(Ray ray){
     	//return super.findIntersections(ray);

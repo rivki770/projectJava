@@ -152,7 +152,7 @@ public class Render {
 	                    Color ip = lightSource.getIntensity(gp.getPoint());
 	                    result = result.add(
 	                            calcDiffusive(kd, nl, ip),
-	                            calcSpecular(ks, l, n, nl, v, nShininess, ip)
+	                            calcSpecular(ks, l, n, v, nShininess, ip)
 	                    );
 	                }
 	            }
@@ -161,16 +161,34 @@ public class Render {
 	        return result;
 	    }
 	    
-	    private Color calcSpecular(double ks, Vector l, Vector n, double nl, Vector v, int nShininess, Color ip) {
-	        Vector r = l.add(n.scale(-2 * nl)); // nl must not be zero!
+	    /**
+	     * Calculate specular component of light reflection.
+	     * @param ks is exclusion factor
+	     * @param d is direction from light to point
+	     * @param n is normal of point
+	     * @param v is vector from a viewpoint on the object
+	     * @param nShininess
+	     * @param il is intensity at the point
+	     * @return
+	     */
+	    private Color calcSpecular(double ks, Vector d, Vector n, Vector v, int nExponent, Color il) {
+	    	double nd = alignZero(n.dotProduct(d));
+	    	Vector r = d.add(n.scale(-2 * nd)); 
 	        double minusVR = alignZero(r.dotProduct(v) * (-1));
 	        if (minusVR <= 0) return Color.BLACK; // view from direction opposite to r vector
-	        return ip.scale(ks * Math.pow(minusVR, nShininess));
+	        return il.scale(ks * Math.pow(minusVR, nExponent));
 	    }
 
-	    private Color calcDiffusive(double kd, double nl, Color ip) {
+	    /**
+	     * Calculate Diffusive component of light reflection.
+	     * @param kd is exclusion factor
+	     * @param nl is scalar multiplication between vectors
+	     * @param il is intensity at the point
+	     * @return
+	     */
+	    private Color calcDiffusive(double kd, double nl, Color il) {
 	        if (nl < 0) nl = -nl;
-	        return ip.scale(nl * kd);
+	        return il.scale(nl * kd);
 	    }
 
 

@@ -145,7 +145,7 @@ public class Cylinder extends Tube {
     * @return list of intersections between ray and geometry
     */
     @Override
-    public List<GeoPoint> findIntersections(Ray ray){
+    public List<GeoPoint> findIntersections(Ray ray, double max){
     	//return super.findIntersections(ray);
     	return null;
     }

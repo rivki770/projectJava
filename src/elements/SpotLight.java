@@ -55,5 +55,10 @@ public class SpotLight extends PointLight{
             return p.subtract(_position).normalize();
         }
     }
+    
+    @Override
+    public double getDistance(Point3D point) {
+        return this.getL(point).get_head().distance(point);
+    }
 
 }

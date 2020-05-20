@@ -30,6 +30,10 @@ public class PointLight extends Light implements LightSource{
         this._kL = _kL;
         this._kQ = _kQ;
     }
+    
+    public PointLight(Color colorIntensity, Point3D _position) {
+        this(colorIntensity, _position, 1d, 0d, 0d);
+    }
 	
     /**
      * @param p the geometries point
@@ -58,5 +62,10 @@ public class PointLight extends Light implements LightSource{
             return p.subtract(_position).normalize();
         }
 	}
+    
+    @Override
+    public double getDistance(Point3D point) {
+        return this.getL(point).get_head().distance(point);
+    }
 
 }

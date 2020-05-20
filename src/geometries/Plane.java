@@ -125,7 +125,7 @@ public class Plane extends Geometry {
     * @return list of intersections between ray and geometry
     */
     @Override
-    public List<GeoPoint> findIntersections(Ray ray){
+    public List<GeoPoint> findIntersections(Ray ray, double max){
     	Vector vec;
         try {
             vec = _point.subtract(ray.getPoint());
@@ -140,6 +140,9 @@ public class Plane extends Geometry {
         double t = alignZero(_normal.dotProduct(vec) / nv);
         
         if (t <= 0)
+        	return null;
+        
+        if (alignZero(t - max) > 0)
         	return null;
         
         GeoPoint geo = new GeoPoint(this, ray.getTargetPoint(t));

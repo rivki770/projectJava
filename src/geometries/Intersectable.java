@@ -59,5 +59,10 @@ public interface Intersectable {
 			return true;
 		}
 	}
-	List<GeoPoint> findIntersections(Ray ray);
+	
+	default List<GeoPoint> findIntersections(Ray ray)
+	{
+		return findIntersections(ray, Double.POSITIVE_INFINITY);
+	}
+	List<GeoPoint> findIntersections(Ray ray, double max);
 }

@@ -17,6 +17,7 @@ public class Render {
 
 	    private Scene _scene;
 	    private ImageWriter _imageWriter;
+	    private static final double DELTA = 0.1;
 
 	    /*************** Constructor ********************/
 	    /**
@@ -131,34 +132,34 @@ public class Render {
 	     * @return the color intensity
 	     */
 	    private Color calcColor(GeoPoint gp) {
-	        Color result = new Color(_scene.getAmbientLight().getIntensity());
-	        result = result.add(gp.getGeometry().getEmissionLight());
+	        Color color = new Color(_scene.getAmbientLight().getIntensity());
+	        color = color.add(gp.getGeometry().getEmissionLight());
 
 	        Vector v = gp.getPoint().subtract(_scene.getCamera().get_p0()).normalize();
 	        Vector n = gp.getGeometry().getNormal(gp.getPoint());
 
-	        Material material = gp.getGeometry().getMaterial();
-	        int nShininess = material.getnShininess();
-	        double kd = material.getkD();
-	        double ks = material.getkS();
+	        int nShininess = gp.getGeometry().getMaterial().getnShininess();
+	        double kd = gp.getGeometry().getMaterial().getkD();
+	        double ks = gp.getGeometry().getMaterial().getkS();
+	        
 	        if (_scene.getLightSources() != null) {
 	            for (LightSource lightSource : _scene.getLightSources()) {
-
 	                Vector l = lightSource.getL(gp.getPoint());
 	                double nl = alignZero(n.dotProduct(l));
 	                double nv = alignZero(n.dotProduct(v));
 
-	                if (sign(nl) == sign(nv)) {
-	                    Color ip = lightSource.getIntensity(gp.getPoint());
-	                    result = result.add(
-	                            calcDiffusive(kd, nl, ip),
-	                            calcSpecular(ks, l, n, v, nShininess, ip)
-	                    );
+	                if (nl * nv > 0) {
+	                	if (unshaded(lightSource, l, n, gp)) {
+		                    Color ip = lightSource.getIntensity(gp.getPoint());
+		                    color = color.add(
+		                            calcDiffusive(kd, nl, ip),
+		                            calcSpecular(ks, l, n, v, nShininess, ip));	
+	                	}
 	                }
 	            }
 	        }
 
-	        return result;
+	        return color;
 	    }
 	    
 	    /**
@@ -192,7 +193,19 @@ public class Render {
 	    }
 
 
-	    private boolean sign(double val) {
-	        return (val > 0d);
+	    //private boolean sign(double val) {
+	      //  return (val > 0d);
+	    //}
+	    
+	    private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
+	        Vector lightDirection = l.scale(-1); // from point to light source
+	        Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
+	        Point3D point = geopoint.getPoint().add(delta);
+	        Ray lightRay = new Ray(point, lightDirection);
+	        List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay, light.getDistance(geopoint._point));
+	        if (intersections == null) {
+	            return true;
+	        }
+	        return false;
 	    }
 }

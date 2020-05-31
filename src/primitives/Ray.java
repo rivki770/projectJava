@@ -22,10 +22,7 @@ public class Ray {
      * @param normal normalize vector
      */
     public Ray(Point3D point, Vector normal) {
-
-        //if (normal.length() != 1) {
-           // throw new IllegalArgumentException("The vector isn't normalize vector");
-        //}
+    	
         this._point = point;
         this._normal = normal.normalize();
     }
@@ -39,6 +36,13 @@ public class Ray {
         this._normal = other._normal;
     }
     
+    
+    /**
+     * A function that moves the beam about a little, to avoid shading the body on itself
+     * @param point point3D
+     * @param direction
+     * @param normal normalize vector
+     */
     public Ray(Point3D point, Vector direction, Vector normal) {
     	_normal = new Vector(direction).normalized();
 

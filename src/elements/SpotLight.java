@@ -56,6 +56,10 @@ public class SpotLight extends PointLight{
         }
     }
     
+    /**
+     * @param point the geometries point
+     * @return the distance from a light to geometry point
+     */
     @Override
     public double getDistance(Point3D point) {
         return point.distance(_position);

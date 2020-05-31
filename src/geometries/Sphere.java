@@ -84,7 +84,7 @@ public class Sphere extends RadialGeometry{
     }
     
     /**
-    *
+    * @param max is maxDistance to geometry point
     * @param ray from camera
     * @return list of intersections between ray and geometry
     */

@@ -44,7 +44,7 @@ public class Triangle extends Polygon {
    }
 
     /**
-    *
+    * @param max is maxDistance to geometry point
     * @param ray from camera
     * @return list of intersections between ray and geometry
     */

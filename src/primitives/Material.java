@@ -22,6 +22,8 @@ public class Material {
     * @param _kD
     * @param _kS
     * @param _nShininess
+    * @param _kT
+    * @param _kR 
     */
    public Material(double _kD, double _kS, int _nShininess, double _kT, double _kR) {
        this._kD = _kD;

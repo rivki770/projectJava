@@ -112,20 +112,28 @@ public class ReflectionRefractionTest {
 		scene.updatCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
 		scene.updatDistance(1000);
 		scene.updatBackground(Color.BLACK);
-		scene.updatAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
+		scene.updatAmbientLight(new AmbientLight(Color.BLACK, 0));
 
-		scene.addGeometries( //
-				new Triangle(Color.BLACK, new Material(0.5, 0.5, 60), //
+		scene.addGeometries(//
+				new Sphere(new Color(java.awt.Color.BLUE), new Material(0.25, 0.25, 20, 0.3, 0), 22, 
+						new Point3D(-35, -35, 50)),
+				new Sphere(new Color(java.awt.Color.RED), new Material(0.25, 0.25, 20), 11, 
+						new Point3D(-35, -35, 50)),
+				new Triangle(new Color(java.awt.Color.RED), new Material(0.5, 0.5, 60), //
 						new Point3D(-150, 150, 115), new Point3D(150, 150, 135), new Point3D(75, -75, 150)), //
-				new Triangle(Color.BLACK, new Material(0.5, 0.5, 60), //
+				new Triangle(new Color(java.awt.Color.RED), new Material(0.5, 0.5, 60, 0, 0.4), //
 						new Point3D(-150, 150, 115), new Point3D(-70, -70, 140), new Point3D(75, -75, 150)), //
-				new Sphere(new Color(java.awt.Color.BLUE), new Material(0.2, 0.2, 30, 0.6, 0), // )
-						30, new Point3D(60, -50, 50)));
+				new Sphere(new Color(java.awt.Color.BLUE), new Material(0.4, 0.3, 100, 0.3, 0), 36,
+						new Point3D(30, 30, 50)),
+				new Sphere(new Color(java.awt.Color.RED), new Material(0.5, 0.5, 100), 18, 
+						new Point3D(30, 30, 50)));
+		
+		
 
-		scene.addLights(new SpotLight(new Color(700, 400, 400), //
-				new Point3D(60, -50, 0), new Vector(0, 0, 1), 1, 4E-5, 2E-7));
+		scene.addLights(new SpotLight(new Color(1000, 600, 0), new Point3D(-30, 30, -750), new Vector(-1, -1, 2), 1,
+				0.0004, 0.0000006));
 
-		ImageWriter imageWriter = new ImageWriter("try", 200, 200, 600, 600);
+		ImageWriter imageWriter = new ImageWriter("my picture", 150, 150, 500, 500);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();

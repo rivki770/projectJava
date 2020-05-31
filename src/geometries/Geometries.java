@@ -35,10 +35,10 @@ public class Geometries implements Intersectable {
     }
 
     /**
-     *
-     * @param ray
-     * @return list of Point3D that intersect the geometries collection
-     */
+    * @param max is maxDistance to geometry point
+    * @param ray from camera
+    * @return list of Point3D that intersect the geometries collection
+    */
     @Override
     public List<GeoPoint> findIntersections(Ray ray, double max) {
         List<GeoPoint> intersections = null;

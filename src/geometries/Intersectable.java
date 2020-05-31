@@ -60,9 +60,20 @@ public interface Intersectable {
 		}
 	}
 	
+	
+    /**
+    * @param ray from camera
+    * @return list of intersections between ray and geometry
+    */
 	default List<GeoPoint> findIntersections(Ray ray)
 	{
 		return findIntersections(ray, Double.POSITIVE_INFINITY);
 	}
+	
+    /**
+    * @param max is maxDistance to geometry point
+    * @param ray from camera
+    * @return list of intersections between ray and geometry
+    */
 	List<GeoPoint> findIntersections(Ray ray, double max);
 }

@@ -26,6 +26,13 @@ public interface LightSource {
      */
 	public Vector getL(Point3D p);
 	
+	
+    /**
+     * Get light source intensity as it reaches a point I<sub>P</sub>
+     *
+     * @param point the geometries point
+     * @return the distance from a light to geometry point
+     */
 	double getDistance(Point3D point);
 
 }

@@ -22,7 +22,7 @@ public class Plane extends Geometry {
      */
     public Plane(Color _emmission, Material _material, Point3D point, Vector normal) {
         this._point = point;
-        this._normal = normal;
+        this._normal = normal.normalize();
         this._emmission = _emmission;
         this._material = _material;
     }

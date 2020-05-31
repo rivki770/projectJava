@@ -56,9 +56,9 @@ public class Triangle extends Polygon {
         Point3D p0 = ray.getPoint();
         Vector v = ray.getNormal();
 
-        Vector v1 = _vertices.get(0).subtract(p0);
-        Vector v2 = _vertices.get(1).subtract(p0);
-        Vector v3 = _vertices.get(2).subtract(p0);
+        Vector v1 = _vertices.get(0).subtract(p0).normalize();
+        Vector v2 = _vertices.get(1).subtract(p0).normalize();
+        Vector v3 = _vertices.get(2).subtract(p0).normalize();
 
         double s1 = v.dotProduct(v1.crossProduct(v2));
         if (isZero(s1)) return null;

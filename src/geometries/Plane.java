@@ -116,7 +116,7 @@ public class Plane extends Geometry {
      */
     @Override
     public Vector getNormal(Point3D point) {
-        return getNormal(null);
+        return _normal;
     }
     
     /**

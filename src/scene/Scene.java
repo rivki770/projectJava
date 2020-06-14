@@ -18,7 +18,7 @@ public class Scene {
 	private AmbientLight _ambientLight;
 	private Geometries _geometries;
 	private Camera _camera;
-	private double _distance;
+	private double _distance; //מהמצלמה לviwe plane
 	private List<LightSource> _lights = new LinkedList<LightSource>();
 	
 	/*************** Constructor ********************/

@@ -3,6 +3,7 @@ package elements;
 import primitives.*;
 import static primitives.Util.*;
 
+
 //import static primitives.Util.isZero;
 
 /**
@@ -11,10 +12,18 @@ import static primitives.Util.*;
  */
 public class Camera {
 	
-    Point3D _p0;
-    Vector _vTo;
-    Vector _vUp;
-    Vector _vRight;
+     Point3D _p0;
+     Vector _vTo;
+     Vector _vUp;
+     Vector _vRight;
+    
+	 double _widthSh;
+	 double _heightSh;
+	 
+	 double _dis;
+	 
+	 private Point3D pointView;
+	 private Point3D pointfocal;
     
     /*************** Constructor ********************/
     /**
@@ -24,18 +33,32 @@ public class Camera {
      * @param _vTo is vector from _Po to center the viea plane
      * @param _vUp is vector from _Po to up.
      */
+	 
+	 public Camera(Point3D _p0, Vector _vTo, Vector _vUp, double _widthSh, double _HeightSh, double _dis) {
+		 //if the the vectors are not orthogonal, throw exception.
+	     if (_vUp.dotProduct(_vTo) != 0)
+	         throw new IllegalArgumentException("the vectors must be orthogonal");
+
+	     this._p0 =  new Point3D(_p0);
+	     
+	     this._vTo = _vTo.normalized();
+	     this._vUp = _vUp.normalized();
+	     this._vRight = this._vTo.crossProduct(this._vUp).normalize();
+	     
+	     this._widthSh = _widthSh;
+	     this._heightSh = _HeightSh;
+	     
+	     this._dis = _dis;
+	 }
+
+	 
     public Camera(Point3D _p0, Vector _vTo, Vector _vUp) {
-
-        //if the the vectors are not orthogonal, throw exception.
-        if (_vUp.dotProduct(_vTo) != 0)
-            throw new IllegalArgumentException("the vectors must be orthogonal");
-
-        this._p0 =  new Point3D(_p0);
-        this._vTo = _vTo.normalized();
-        this._vUp = _vUp.normalized();
-
-        _vRight = this._vTo.crossProduct(this._vUp).normalize();
+    	
+    	this(_p0, _vTo, _vUp, 0, 0, 0);
     }
+    
+    
+
     
     /*************** getters ********************/
     /**
@@ -67,6 +90,26 @@ public class Camera {
         return new Vector(_vRight);
     }
     
+    public double get_widthSh() {
+        return this._widthSh;
+    }
+    
+    public double get_heightSh() {
+        return this._heightSh;
+    }
+    
+    public double get_dis() {
+        return this._dis;
+    }
+    
+    public Point3D get_pointView() {
+        return this.pointView;
+    }
+    
+    public Point3D get_pointFocal() {
+        return this.pointfocal;
+    }
+    
     /**
     *
     * @param nX is amount of pixels in length
@@ -78,9 +121,7 @@ public class Camera {
     * @param screenHeight is the length of a view plane 
     * @return Ray that comes out of the center of the camera and cuts the view plane
     */
-    public Ray constructRayThroughPixel(int nX, int nY,
-            int j, int i, double screenDistance,
-            double screenWidth, double screenHeight) {
+    public Ray constructRayThroughPixel(int nX, int nY, int j, int i, double screenDistance, double screenWidth, double screenHeight) {
     	 if (isZero(screenDistance)) //The camera on the view plane
          {
              throw new IllegalArgumentException("distance cannot be 0");
@@ -105,9 +146,22 @@ public class Camera {
              Pij = Pij.add(_vUp.scale(-yi));
          }
          
+         this.pointView = Pij;
+         
          Vector Vij = Pij.subtract(_p0);
+         
+         constructRayOnFocalPlane(Vij, _dis);
 
          return new Ray(_p0,Vij);
     }
+    
+    private void constructRayOnFocalPlane(Vector vec, double distance) {
+   	 if (!isZero(distance)) //The camera on the view plane
+        {
+            Point3D Pc = pointView.add(vec.normalize().scale(distance));
+         
+            this.pointfocal = Pc;
+        }
+   }
 
 }

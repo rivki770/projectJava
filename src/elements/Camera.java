@@ -20,7 +20,7 @@ public class Camera {
 	 double _widthSh;
 	 double _heightSh;
 	 
-	 double _dis;
+	 double _dis; //המרחק בין המשטחים
 	 
 	 private Point3D pointView;
 	 private Point3D pointfocal;
@@ -150,15 +150,15 @@ public class Camera {
          
          Vector Vij = Pij.subtract(_p0);
          
-         constructRayOnFocalPlane(Vij, _dis);
+         constructRayOnFocalPlane(Vij, screenDistance);
 
          return new Ray(_p0,Vij);
     }
     
-    private void constructRayOnFocalPlane(Vector vec, double distance) {
-   	 if (!isZero(distance)) //The camera on the view plane
+    private void constructRayOnFocalPlane(Vector vec, double screenDistance) { //וקטור מהמצלמה לנקודה על משטח הצפייה
+   	 if (!isZero(_dis))
         {
-            Point3D Pc = pointView.add(vec.normalize().scale(distance));
+            Point3D Pc = pointView.add(vec.normalize().scale(screenDistance + _dis));
          
             this.pointfocal = Pc;
         }

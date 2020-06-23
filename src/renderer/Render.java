@@ -21,7 +21,7 @@ public class Render {
 	    private ImageWriter _imageWriter;
 	    private static final int MAX_CALC_COLOR_LEVEL = 10;
 	    private static final double MIN_CALC_COLOR_K = 0.001;
-	    private double _amount;
+	    private static final double AMOUNT_RAYS = 80;
 
 	    /*************** Constructor ********************/
 	    /**
@@ -38,14 +38,9 @@ public class Render {
 	     * @param imageWriter is a details of the image of a model.
 	     */
 	    
-	    public Render(ImageWriter imageWriter, Scene scene, double amount) {
+	    public Render(ImageWriter imageWriter, Scene scene) {
 	        this._imageWriter = imageWriter;
 	        this._scene= scene;
-	        this._amount = amount;
-	    }
-	    
-	    public Render(ImageWriter imageWriter, Scene scene) {
-	    	this(imageWriter, scene, 0);
 	    }
 
 	    /*************** getters ********************/
@@ -59,10 +54,6 @@ public class Render {
 	    
 	    public ImageWriter get_imageWriter() {
 	        return this._imageWriter;
-	    }
-	    
-	    public double get_amount() {
-	        return this._amount;
 	    }
 
 	    /**
@@ -80,7 +71,6 @@ public class Render {
 	        int Ny = _imageWriter.getNy();
 	        Ray ray;
 	        
-	       // Ray rayTry;
 	        if (camera.get_dis() == 0) {
 		        for (int row = 0; row < Ny; row++) {
 		            for (int column = 0; column < Nx; column++) {
@@ -100,7 +90,6 @@ public class Render {
 		            for (int column = 0; column < Nx; column++) {
 		            	ray = camera.constructRayThroughPixel(Nx, Ny, column, row, distance, width, height);
 		        		List<Ray> rayFocals = findRayFocalPlane(camera.get_pointView(), camera.get_pointFocal(), camera.get_widthSh(), camera.get_heightSh());
-		        		rayFocals.add(ray);
 		                Color color = colorPixel(rayFocals);
 		                _imageWriter.writePixel(column, row, color.getColor());
 		            }
@@ -111,10 +100,22 @@ public class Render {
 	    
 	    private List<Ray> findRayFocalPlane(Point3D viewPoint, Point3D focalPoint, double width, double heigh){
 	    	List<Point3D> points = new LinkedList<Point3D>();
-	    	points.add(new Point3D(viewPoint.get_x().get() + width / 2, viewPoint.get_y().get() + heigh / 2, viewPoint.get_z().get()));
-	    	points.add(new Point3D(viewPoint.get_x().get() + width / 2, viewPoint.get_y().get() - heigh / 2, viewPoint.get_z().get()));
-	    	points.add(new Point3D(viewPoint.get_x().get() - width / 2, viewPoint.get_y().get() + heigh / 2, viewPoint.get_z().get()));
-	    	points.add(new Point3D(viewPoint.get_x().get() - width / 2, viewPoint.get_y().get() - heigh / 2, viewPoint.get_z().get()));
+	    	double xStart = viewPoint.get_x().get() - width / 2;
+	    	double xEnd = viewPoint.get_x().get() + width / 2;
+	    	double yStart = viewPoint.get_y().get() - heigh / 2;
+	    	double yEnd = viewPoint.get_y().get() + heigh / 2;
+	    	for(int i = 0; i < AMOUNT_RAYS; i ++)
+	    	{
+	    		double x = (double) ((Math.random()*(xStart - xEnd + 1))+ xEnd);
+	    		double y = (double) ((Math.random()*(yStart - yEnd + 1))+ yEnd);
+	    		double z = viewPoint.get_z().get();
+		    	points.add(new Point3D(x, y, z));
+	    	}
+	    	points.add(new Point3D(xEnd, yEnd, viewPoint.get_z().get()));
+	    	points.add(new Point3D(xEnd, yStart, viewPoint.get_z().get()));
+	    	points.add(new Point3D(xStart, yEnd, viewPoint.get_z().get()));
+	    	points.add(new Point3D(xStart, yStart, viewPoint.get_z().get()));
+	    	points.add(viewPoint);
 	    	
 	    	List<Ray> ray = new LinkedList<Ray>();
 	    	for(Point3D point : points) {
@@ -124,7 +125,6 @@ public class Render {
 	    }
 	    
 	    private Color colorPixel(List<Ray> rayFocals) {
-	    	//Color Pixelcolor = null;
 	    	List<Color> colors = new LinkedList<Color>();
 	    	for(Ray ray : rayFocals) {
 	    		GeoPoint closestPoint = findCLosestIntersection(ray);
@@ -133,19 +133,19 @@ public class Render {
 	    		else
 	    			colors.add(calcColor(closestPoint, ray));
 	    	}
+	    	
+	    	
 	    	if (equalColor(colors) == true)
 	    		return colors.get(0);
 	    	else {
 	    		Color Pixelcolor = colors.get(0);
-	    		Pixelcolor.add(colors.get(1));
-	    		Pixelcolor.add(colors.get(2));
-	    		Pixelcolor.add(colors.get(3));
-	    		Pixelcolor.add(colors.get(4));
-	    		return Pixelcolor;
-	    		//for (Color color: colors) {
-	    			//Pixelcolor.add(colors.get(0), colors.get(1));
+	    		for(int i = 1; i < AMOUNT_RAYS; i++)
+	    		{
+	    		    Pixelcolor.add(colors.get(i));
 	    		}
-	    	//return Pixelcolor;
+	    		Pixelcolor.reduce(300);
+	    		return Pixelcolor;
+	    		}
 	    }
 	    
 	    private boolean equalColor(List<Color> colors) {

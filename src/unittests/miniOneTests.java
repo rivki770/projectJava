@@ -76,7 +76,7 @@ public class miniOneTests {
 						
 						new Sphere(new Color(java.awt.Color.RED),new Material(0.3, 0.7, 100, 0.5 , 0), 20, new Point3D(-90,-105, 70)),
 						
-						new Plane(new Color(0, 40, 60), new Material(0.5, 0.5, 1200, 0, 1), new Point3D(0, 0, 200), new Vector(0, 0, 1)) 
+						new Plane(new Color(0, 40, 60), new Material(0.5, 0.5, 1200, 0, 0), new Point3D(0, 0, 200), new Vector(0, 0, 1)) 
 								
 						);
 

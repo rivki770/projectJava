@@ -43,7 +43,7 @@ public class Camera {
 	     
 	     this._vTo = _vTo.normalized();
 	     this._vUp = _vUp.normalized();
-	     this._vRight = this._vTo.crossProduct(this._vUp).normalize();
+	     this._vRight = this._vTo.crossProduct(this._vUp).normalized();
 	     
 	     this._widthSh = _widthSh;
 	     this._heightSh = _HeightSh;
@@ -127,10 +127,11 @@ public class Camera {
              throw new IllegalArgumentException("distance cannot be 0");
          }
 
-         Point3D Pc = _p0.add(_vTo.scale(screenDistance));
+         Point3D Pc = _p0.add(_vTo.scale(screenDistance)); 
+         //System.out.println(Pc);
 
-         double Ry = screenHeight/nY;
-         double Rx = screenWidth/nX;
+         double Ry = screenHeight/(double)nY;
+         double Rx = screenWidth/(double)nX;
 
          double yi =  ((i - nY/2d)*Ry + Ry/2d);
          double xj=   ((j - nX/2d)*Rx + Rx/2d);
@@ -143,25 +144,18 @@ public class Camera {
          }
          if (! isZero(yi))
          {
-             Pij = Pij.add(_vUp.scale(-yi));
+             Pij = Pij.add(_vUp.scale(yi).scale(-1));
          }
          
          this.pointView = Pij;
          
          Vector Vij = Pij.subtract(_p0);
          
-         constructRayOnFocalPlane(Vij, screenDistance);
+         if (_dis != 0)
+         {
+             this.pointfocal = this.pointView.add(Vij.normalized().scale(_dis));
+         }
 
          return new Ray(_p0,Vij);
     }
-    
-    private void constructRayOnFocalPlane(Vector vec, double screenDistance) { //וקטור מהמצלמה לנקודה על משטח הצפייה
-   	 if (!isZero(_dis))
-        {
-            Point3D Pc = pointView.add(vec.normalize().scale(screenDistance + _dis));
-         
-            this.pointfocal = Pc;
-        }
-   }
-
 }

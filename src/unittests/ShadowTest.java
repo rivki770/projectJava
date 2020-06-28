@@ -34,7 +34,7 @@ public class ShadowTest {
 		scene.addLights(new SpotLight(new Color(400, 240, 0), //
 				new Point3D(-100, 100, -200), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial2", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -60,7 +60,7 @@ public class ShadowTest {
 		scene.addLights(new SpotLight(new Color(400, 240, 0), //
 				new Point3D(-100, 100, -200), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("sphereTriangleMove1", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleMove12", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -86,7 +86,7 @@ public class ShadowTest {
 		scene.addLights(new SpotLight(new Color(400, 240, 0), //
 				new Point3D(-100, 100, -200), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("sphereTriangleMove2", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleMove22", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -112,7 +112,7 @@ public class ShadowTest {
 		scene.addLights(new SpotLight(new Color(400, 240, 0), //
 				new Point3D(-85, 85, -135), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("sphereTriangleSpot1", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleSpot12", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -138,7 +138,7 @@ public class ShadowTest {
 		scene.addLights(new SpotLight(new Color(400, 240, 0), //
 				new Point3D(-74, 74, -65), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7));
 
-		ImageWriter imageWriter = new ImageWriter("sphereTriangleSpot2", 200, 200, 400, 400);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleSpot22", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();
@@ -167,7 +167,7 @@ public class ShadowTest {
 		scene.addLights(new SpotLight(new Color(700, 400, 400), //
 				new Point3D(40, -40, -115), new Vector(-1, 1, 4), 1, 4E-4, 2E-5));
 
-		ImageWriter imageWriter = new ImageWriter("trianglesSphere", 200, 200, 600, 600);
+		ImageWriter imageWriter = new ImageWriter("trianglesSphere2", 200, 200, 600, 600);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();

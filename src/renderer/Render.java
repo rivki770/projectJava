@@ -1,15 +1,13 @@
 package renderer;
 
 import elements.*;
-//import geometries.*;
 import primitives.*;
 import static primitives.Util.*;
 import geometries.Intersectable.GeoPoint;
+//import geometries.Plane;
 import scene.Scene;
 
 import java.util.LinkedList;
-//import java.util.ArrayList;
-//import java.awt.Color;
 import java.util.List;
 /**
  * Render: rendering a image
@@ -19,9 +17,12 @@ public class Render {
 
 	    private Scene _scene;
 	    private ImageWriter _imageWriter;
+	    private double _amount_rays;
+	    
 	    private static final int MAX_CALC_COLOR_LEVEL = 10;
 	    private static final double MIN_CALC_COLOR_K = 0.001;
-	    private static final double AMOUNT_RAYS = 80;
+	    private static final double NUM_RAYS = 5;
+	    
 
 	    /*************** Constructor ********************/
 	    /**
@@ -55,6 +56,15 @@ public class Render {
 	    public ImageWriter get_imageWriter() {
 	        return this._imageWriter;
 	    }
+	    
+	    public double get_amountRays()
+	    {
+	    	return this._amount_rays;
+	    }
+	    
+	    public void set_amountRays(double num) {
+	    	this._amount_rays = num;
+	    }
 
 	    /**
 	     * Filling the buffer according to the geometries that are in the scene.
@@ -69,6 +79,7 @@ public class Render {
 	        int height = (int) _imageWriter.getHeight();
 	        int Nx = _imageWriter.getNx();
 	        int Ny = _imageWriter.getNy();
+	        
 	        Ray ray;
 	        
 	        if (camera.get_dis() == 0) {
@@ -104,17 +115,17 @@ public class Render {
 	    	double xEnd = viewPoint.get_x().get() + width / 2;
 	    	double yStart = viewPoint.get_y().get() - heigh / 2;
 	    	double yEnd = viewPoint.get_y().get() + heigh / 2;
-	    	for(int i = 0; i < AMOUNT_RAYS; i ++)
+    		double z = viewPoint.get_z().get();
+	    	for(int i = 0; i < _amount_rays; i ++)
 	    	{
-	    		double x = (double) ((Math.random()*(xStart - xEnd + 1))+ xEnd);
-	    		double y = (double) ((Math.random()*(yStart - yEnd + 1))+ yEnd);
-	    		double z = viewPoint.get_z().get();
+	    		double x = (double) ((Math.random()*(xEnd - xStart + 1)) + xStart);
+	    		double y = (double) ((Math.random()*(yEnd - yStart + 1)) + yStart);
 		    	points.add(new Point3D(x, y, z));
 	    	}
-	    	points.add(new Point3D(xEnd, yEnd, viewPoint.get_z().get()));
-	    	points.add(new Point3D(xEnd, yStart, viewPoint.get_z().get()));
-	    	points.add(new Point3D(xStart, yEnd, viewPoint.get_z().get()));
-	    	points.add(new Point3D(xStart, yStart, viewPoint.get_z().get()));
+	    	points.add(new Point3D(xEnd, yEnd, z));
+	    	points.add(new Point3D(xEnd, yStart, z));
+	    	points.add(new Point3D(xStart, yEnd, z));
+	    	points.add(new Point3D(xStart, yStart, z));
 	    	points.add(viewPoint);
 	    	
 	    	List<Ray> ray = new LinkedList<Ray>();
@@ -139,11 +150,11 @@ public class Render {
 	    		return colors.get(0);
 	    	else {
 	    		Color Pixelcolor = colors.get(0);
-	    		for(int i = 1; i < AMOUNT_RAYS; i++)
+	    		for(int i = 1; i < _amount_rays + NUM_RAYS; i++)
 	    		{
-	    		    Pixelcolor.add(colors.get(i));
+	    		    Pixelcolor = Pixelcolor.add(colors.get(i));
 	    		}
-	    		Pixelcolor.reduce(300);
+	    		Pixelcolor = Pixelcolor.reduce(_amount_rays + NUM_RAYS);
 	    		return Pixelcolor;
 	    		}
 	    }

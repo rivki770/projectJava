@@ -34,7 +34,7 @@ public class RenderTest {
                 new Triangle(new Point3D(-100, 0, 100), new Point3D(0, 100, 100), new Point3D(-100, 100, 100)),
                 new Triangle(new Point3D(-100, 0, 100), new Point3D(0, -100, 100), new Point3D(-100, -100, 100)));
 
-        ImageWriter imageWriter = new ImageWriter("base render test", 500, 500, 500, 500);
+        ImageWriter imageWriter = new ImageWriter("base render test2", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);
 
         render.renderImage();
@@ -66,7 +66,7 @@ public class RenderTest {
                 new Triangle(new Color(java.awt.Color.GREEN),
                         new Point3D(-100, 0, 100), new Point3D(0, -100, 100), new Point3D(-100, -100, 100))); // upper left
 
-        ImageWriter imageWriter = new ImageWriter("color render test", 500, 500, 500, 500);
+        ImageWriter imageWriter = new ImageWriter("color render test2", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);
 
         render.renderImage();

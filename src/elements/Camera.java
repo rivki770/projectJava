@@ -127,8 +127,7 @@ public class Camera {
              throw new IllegalArgumentException("distance cannot be 0");
          }
 
-         Point3D Pc = _p0.add(_vTo.scale(screenDistance)); 
-         //System.out.println(Pc);
+         Point3D Pc = _p0.add(_vTo.scale(screenDistance));
 
          double Ry = screenHeight/(double)nY;
          double Rx = screenWidth/(double)nX;
@@ -151,7 +150,7 @@ public class Camera {
          
          Vector Vij = Pij.subtract(_p0);
          
-         if (_dis != 0)
+         if (_dis > 0)
          {
              this.pointfocal = this.pointView.add(Vij.normalized().scale(_dis));
          }

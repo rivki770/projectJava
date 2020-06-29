@@ -21,7 +21,92 @@ public class Render {
 	    
 	    private static final int MAX_CALC_COLOR_LEVEL = 10;
 	    private static final double MIN_CALC_COLOR_K = 0.001;
+	    
+		private int _threads = 1;
+		private final int SPARE_THREADS = 2;
+		private boolean _print = false;
+	    
 	    private static final double NUM_RAYS = 5;
+	    
+		private class Pixel {
+			private long _maxRows = 0;
+			private long _maxCols = 0;
+			private long _pixels = 0;
+			public volatile int row = 0;
+			public volatile int col = -1;
+			private long _counter = 0;
+			private int _percents = 0;
+			private long _nextCounter = 0;
+
+			/**
+			 * The constructor for initializing the main follow up Pixel object
+			 * @param maxRows the amount of pixel rows
+			 * @param maxCols the amount of pixel columns
+			 */
+			public Pixel(int maxRows, int maxCols) {
+				_maxRows = maxRows;
+				_maxCols = maxCols;
+				_pixels = maxRows * maxCols;
+				_nextCounter = _pixels / 100;
+				if (Render.this._print) System.out.printf("\r %02d%%", _percents);
+			}
+
+			/**
+			 *  Default constructor for secondary Pixel objects
+			 */
+			public Pixel() {}
+
+			/**
+			 * Internal function for thread-safe manipulating of main follow up Pixel object - this function is
+			 * critical section for all the threads, and main Pixel object data is the shared data of this critical
+			 * section.<br/>
+			 * The function provides next pixel number each call.
+			 * @param target target secondary Pixel object to copy the row/column of the next pixel 
+			 * @return the progress percentage for follow up: if it is 0 - nothing to print, if it is -1 - the task is
+			 * finished, any other value - the progress percentage (only when it changes)
+			 */
+			private synchronized int nextP(Pixel target) {
+				++col;
+				++_counter;
+				if (col < _maxCols) {
+					target.row = this.row;
+					target.col = this.col;
+					if (_counter == _nextCounter) {
+						++_percents;
+						_nextCounter = _pixels * (_percents + 1) / 100;
+						return _percents;
+					}
+					return 0;
+				}
+				++row;
+				if (row < _maxRows) {
+					col = 0;
+					if (_counter == _nextCounter) {
+						++_percents;
+						_nextCounter = _pixels * (_percents + 1) / 100;
+						return _percents;
+					}
+					return 0;
+				}
+				return -1;
+			}
+
+			/**
+			 * Public function for getting next pixel number into secondary Pixel object.
+			 * The function prints also progress percentage in the console window.
+			 * @param target target secondary Pixel object to copy the row/column of the next pixel 
+			 * @return true if the work still in progress, -1 if it's done
+			 */
+			public boolean nextPixel(Pixel target) {
+				int percents = nextP(target);
+				if (percents > 0)
+					if (Render.this._print) System.out.printf("\r %02d%%", percents);
+				if (percents >= 0)
+					return true;
+				if (Render.this._print) System.out.printf("\r %02d%%", 100);
+				return false;
+			}
+		}
 	    
 
 	    /*************** Constructor ********************/
@@ -80,32 +165,42 @@ public class Render {
 	        int Nx = _imageWriter.getNx();
 	        int Ny = _imageWriter.getNy();
 	        
-	        Ray ray;
+	        final Pixel thePixel = new Pixel(Ny, Nx);
 	        
-	        if (camera.get_dis() == 0) {
-		        for (int row = 0; row < Ny; row++) {
-		            for (int column = 0; column < Nx; column++) {
-		            	ray = camera.constructRayThroughPixel(Nx, Ny, column, row, distance, width, height);
-		                GeoPoint closestPoint = findCLosestIntersection(ray);
-		                if (closestPoint == null) {
-		                    _imageWriter.writePixel(column, row, background);
-		                } else {
-		                    _imageWriter.writePixel(column, row, calcColor(closestPoint, ray).getColor());
-		                }
-		            }
-		        }
+			// Generate threads
+			Thread[] threads = new Thread[_threads];
+			for (int i = _threads - 1; i >= 0; --i) {
+				threads[i] = new Thread(() -> {
+					Pixel pixel = new Pixel();
+					while (thePixel.nextPixel(pixel)) {
+				        if (camera.get_dis() == 0) {
+			            	Ray ray = camera.constructRayThroughPixel(Nx, Ny, pixel.col, pixel.row, distance, width, height);
+			                GeoPoint closestPoint = findCLosestIntersection(ray);
+			                if (closestPoint == null) {
+			                    _imageWriter.writePixel(pixel.col, pixel.row, background);
+			                } else {
+			                    _imageWriter.writePixel(pixel.col, pixel.row, calcColor(closestPoint, ray).getColor());
+			                }
+				        }
+				        else {
+			            	Ray ray = camera.constructRayThroughPixel(Nx, Ny, pixel.col, pixel.row, distance, width, height);
+			        		List<Ray> rayFocals = findRayFocalPlane(camera.get_pointView(), camera.get_pointFocal(), camera.get_widthSh(), camera.get_heightSh());
+			        		rayFocals.add(ray);
+			                Color color = colorPixel(rayFocals);
+			                _imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
+				        }
+					}
+				});
+			}
 
-	        }
-	        else {
-		        for (int row = 0; row < Ny; row++) {
-		            for (int column = 0; column < Nx; column++) {
-		            	ray = camera.constructRayThroughPixel(Nx, Ny, column, row, distance, width, height);
-		        		List<Ray> rayFocals = findRayFocalPlane(camera.get_pointView(), camera.get_pointFocal(), camera.get_widthSh(), camera.get_heightSh());
-		                Color color = colorPixel(rayFocals);
-		                _imageWriter.writePixel(column, row, color.getColor());
-		            }
-		        }
-	        }
+			// Start threads
+			for (Thread thread : threads) thread.start();
+
+			// Wait for all threads to finish
+			for (Thread thread : threads) try { thread.join(); } catch (Exception e) {}
+			if (_print) System.out.printf("\r100%%\n");
+	        
+
 	    }
 	    
 	    
@@ -126,7 +221,6 @@ public class Render {
 	    	points.add(new Point3D(xEnd, yStart, z));
 	    	points.add(new Point3D(xStart, yEnd, z));
 	    	points.add(new Point3D(xStart, yStart, z));
-	    	points.add(viewPoint);
 	    	
 	    	List<Ray> ray = new LinkedList<Ray>();
 	    	for(Point3D point : points) {
@@ -161,7 +255,7 @@ public class Render {
 	    
 	    private boolean equalColor(List<Color> colors) {
 	    	for (int i = 0; i < colors.size() - 1; i++) {
-	    		if (colors.get(i) != colors.get(i + 1))
+	    		if (!(colors.get(i).equals(colors.get(i + 1))))
 	    			return false;
 	    	}
 	    	return true;
@@ -440,4 +534,29 @@ public class Render {
 	        }
 	        return closestPoint;
 	    }
+	    
+		public Render setMultithreading(int threads) {
+			if (threads < 0)
+				throw new IllegalArgumentException("Multithreading patameter must be 0 or higher");
+			if (threads != 0)
+				_threads = threads;
+			else {
+				int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
+				if (cores <= 2)
+					_threads = 1;
+				else
+					_threads = cores;
+			}
+			return this;
+		}
+
+		/**
+		 * Set debug printing on
+		 * 
+		 * @return the Render object itself
+		 */
+		public Render setDebugPrint() {
+			_print = true;
+			return this;
+		}
 }

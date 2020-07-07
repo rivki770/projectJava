@@ -19,6 +19,9 @@ public class Render {
 	    private ImageWriter _imageWriter;
 	    private double _amount_rays;
 	    
+	    public boolean mini2;
+	    private boolean flag = true;
+	    
 	    private static final int MAX_CALC_COLOR_LEVEL = 10;
 	    private static final double MIN_CALC_COLOR_K = 0.001;
 	    
@@ -160,8 +163,8 @@ public class Render {
 	    	java.awt.Color background = _scene.getBackground().getColor();
 	        double distance = _scene.getDistance();
 
-	        int width = (int) _imageWriter.getWidth();
-	        int height = (int) _imageWriter.getHeight();
+	        double width =  _imageWriter.getWidth();
+	        double height =  _imageWriter.getHeight();
 	        int Nx = _imageWriter.getNx();
 	        int Ny = _imageWriter.getNy();
 	        
@@ -173,8 +176,8 @@ public class Render {
 				threads[i] = new Thread(() -> {
 					Pixel pixel = new Pixel();
 					while (thePixel.nextPixel(pixel)) {
+		            	Ray ray = camera.constructRayThroughPixel(Nx, Ny, pixel.col, pixel.row, distance, width, height);
 				        if (camera.get_dis() == 0) {
-			            	Ray ray = camera.constructRayThroughPixel(Nx, Ny, pixel.col, pixel.row, distance, width, height);
 			                GeoPoint closestPoint = findCLosestIntersection(ray);
 			                if (closestPoint == null) {
 			                    _imageWriter.writePixel(pixel.col, pixel.row, background);
@@ -183,11 +186,24 @@ public class Render {
 			                }
 				        }
 				        else {
-			            	Ray ray = camera.constructRayThroughPixel(Nx, Ny, pixel.col, pixel.row, distance, width, height);
-			        		List<Ray> rayFocals = findRayFocalPlane(camera.get_pointView(), camera.get_pointFocal(), camera.get_widthSh(), camera.get_heightSh());
-			        		rayFocals.add(ray);
-			                Color color = colorPixel(rayFocals);
-			                _imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
+				        	Point3D centerPixel = camera.get_pointView();
+				        	Point3D centerfoacal = camera.get_pointFocal();
+				        	
+				        	//mini project2
+				        	if (mini2 == true) {
+								List<Point3D> PointSide = camera.getPointsPixel(centerPixel, width / (double)Nx, height / (double)Ny); // returns 4 points the edges of the pixel
+								Color color = calcColorPixel4(PointSide, 1, centerfoacal); // sends to the superSempling function
+				                _imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
+				        	}
+				        	
+				        	//mini project1
+				        	else {
+				        		List<Ray> rayFocals = findRayFocalPlane(centerPixel, centerfoacal, camera.get_widthSh(), camera.get_heightSh());
+				        		rayFocals.add(ray);
+				                Color color = colorPixel(rayFocals);
+				                _imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
+				        	}
+
 				        }
 					}
 				});
@@ -203,6 +219,69 @@ public class Render {
 
 	    }
 	    
+		private Color calcColorPixel4(List<Point3D> points, int level, Point3D focalPoint)
+		{
+			Camera camera = _scene.getCamera();
+			
+	        double width =  _imageWriter.getWidth();
+	        double height =  _imageWriter.getHeight();
+	        int Nx = _imageWriter.getNx();
+	        int Ny = _imageWriter.getNy();
+	        
+	        double Ry = height/(double)Ny;
+	        double Rx = width/(double)Nx;
+			
+			List<Ray> rays = constructRaysThroughPixel(points, focalPoint);
+			
+			Color cs = colorPixel(rays);
+			
+			if(flag) { //כל הצבעים שווים
+				return cs;
+			}
+			
+			if(flag == false && level > 3) { //צבעים לא שווים אבל נגמר העומק
+				return cs;
+			}
+			
+			else //צבעים לא שווים וגם לא נגמר העומק
+			{
+				List<Point3D> centerP = findCenterNewPixels(points); //מחלק ל4 כביכול ומחזיר את 4 המרכזים החדשים
+				Color colors = new Color(0,0,0);
+				for(Point3D p: centerP) //עובר על המרכזים
+				{
+					List<Point3D> newPoints = camera.getPointsPixel(p, Rx/(Math.pow(2, level)),Ry/(Math.pow(2, level))); //לכל מרכז בודק את ה4 הפינתיים
+					level++;
+					colors = colors.add(calcColorPixel4(newPoints, level, focalPoint).reduce(4)); //בדיקת הצבע לרביע וחיבור הכל ביחד
+				}
+				return colors;
+			}
+		}
+		
+		public List<Ray> constructRaysThroughPixel(List<Point3D> points, Point3D focalPoint)
+		{	
+			List<Ray> rays = new LinkedList<Ray>();
+			for(Point3D point:points)
+			{
+				 Vector v = new Vector(focalPoint.subtract(point));
+				  rays.add(new Ray(point,v));
+			}
+			return rays;
+		}
+		
+		private List<Point3D> findCenterNewPixels(List<Point3D> points)
+		{
+			double z = points.get(0).get_z().get();
+			double sizey = points.get(0).get_y().get() - points.get(1).get_y().get();
+			double sizex = points.get(1).get_x().get() - points.get(2).get_x().get();
+			double wh = sizex / 4;
+			double ht = sizey / 4;
+			List<Point3D> centerPoints = new LinkedList<Point3D>();
+			centerPoints.add(new Point3D(points.get(0).get_x().get() - wh ,points.get(0).get_y().get() - ht, z));
+			centerPoints.add(new Point3D(points.get(1).get_x().get() - wh ,points.get(1).get_y().get() + ht, z));
+			centerPoints.add(new Point3D(points.get(2).get_x().get() + wh ,points.get(2).get_y().get() + ht, z));
+			centerPoints.add(new Point3D(points.get(3).get_x().get() + wh ,points.get(3).get_y().get() - ht, z));
+			return centerPoints;
+		}
 	    
 	    private List<Ray> findRayFocalPlane(Point3D viewPoint, Point3D focalPoint, double width, double heigh){
 	    	List<Point3D> points = new LinkedList<Point3D>();
@@ -243,14 +322,26 @@ public class Render {
 	    	if (equalColor(colors) == true)
 	    		return colors.get(0);
 	    	else {
-	    		Color Pixelcolor = colors.get(0);
-	    		for(int i = 1; i < _amount_rays + NUM_RAYS; i++)
-	    		{
-	    		    Pixelcolor = Pixelcolor.add(colors.get(i));
+	    		if (mini2) {
+		    		flag = false;
+		    		Color Pixelcolor = colors.get(0);
+		    		for(int i = 1; i < 4; i++)
+		    		{
+		    		    Pixelcolor = Pixelcolor.add(colors.get(i));
+		    		}
+		    		Pixelcolor = Pixelcolor.reduce(4);
+		    		return Pixelcolor;
 	    		}
-	    		Pixelcolor = Pixelcolor.reduce(_amount_rays + NUM_RAYS);
-	    		return Pixelcolor;
+	    		else {
+		    		Color Pixelcolor = colors.get(0);
+		    		for(int i = 1; i < _amount_rays + NUM_RAYS; i++)
+		    		{
+		    		    Pixelcolor = Pixelcolor.add(colors.get(i));
+		    		}
+		    		Pixelcolor = Pixelcolor.reduce(_amount_rays + NUM_RAYS);
+		    		return Pixelcolor;
 	    		}
+	    	}
 	    }
 	    
 	    private boolean equalColor(List<Color> colors) {
@@ -534,6 +625,8 @@ public class Render {
 	        }
 	        return closestPoint;
 	    }
+	    
+
 	    
 		public Render setMultithreading(int threads) {
 			if (threads < 0)

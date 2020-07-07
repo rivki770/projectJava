@@ -3,6 +3,9 @@ package elements;
 import primitives.*;
 import static primitives.Util.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 //import static primitives.Util.isZero;
 
@@ -127,27 +130,8 @@ public class Camera {
              throw new IllegalArgumentException("distance cannot be 0");
          }
 
-         Point3D Pc = _p0.add(_vTo.scale(screenDistance));
-
-         double Ry = screenHeight/(double)nY;
-         double Rx = screenWidth/(double)nX;
-
-         double yi =  ((i - nY/2d)*Ry + Ry/2d);
-         double xj=   ((j - nX/2d)*Rx + Rx/2d);
-
-         Point3D Pij = Pc;
-
-         if (! isZero(xj))
-         {
-             Pij = Pij.add(_vRight.scale(xj));
-         }
-         if (! isZero(yi))
-         {
-             Pij = Pij.add(_vUp.scale(yi).scale(-1));
-         }
-         
-         this.pointView = Pij;
-         
+         this.pointView = getCenterOfPixel(nX, nY, j, i, screenDistance, screenWidth, screenHeight);
+         Point3D Pij = this.pointView;
          Vector Vij = Pij.subtract(_p0);
          
          if (_dis > 0)
@@ -157,4 +141,44 @@ public class Camera {
 
          return new Ray(_p0,Vij);
     }
+    
+    public Point3D getCenterOfPixel(int nX, int nY, int j, int i, double screenDistance, double screenWidth, double screenHeight) {
+        Point3D Pc = _p0.add(_vTo.scale(screenDistance));
+
+        double Ry = screenHeight/(double)nY;
+        double Rx = screenWidth/(double)nX;
+
+        double yi =  ((i - nY/2d)*Ry + Ry/2d);
+        double xj=   ((j - nX/2d)*Rx + Rx/2d);
+
+        Point3D Pij = Pc;
+
+        if (! isZero(xj))
+        {
+            Pij = Pij.add(_vRight.scale(xj));
+        }
+        if (! isZero(yi))
+        {
+            Pij = Pij.add(_vUp.scale(yi).scale(-1));
+        }
+        
+        return new Point3D(Pij);
+    }
+    
+	public List<Point3D> getPointsPixel(Point3D centerPixel, double width, double height)
+	{
+
+    	double xStart = centerPixel.get_x().get() - width / 2;
+    	double xEnd = centerPixel.get_x().get() + width / 2;
+    	double yStart = centerPixel.get_y().get() - height / 2;
+    	double yEnd = centerPixel.get_y().get() + height / 2;
+		double z = centerPixel.get_z().get();
+		    
+		List<Point3D> points = new LinkedList<Point3D>();
+    	points.add(new Point3D(xEnd, yEnd, z));
+    	points.add(new Point3D(xEnd, yStart, z));
+    	points.add(new Point3D(xStart, yStart, z)); 
+    	points.add(new Point3D(xStart, yEnd, z));
+		return points;
+	}
 }
